@@ -1,7 +1,8 @@
-package thuypham.ptithcm.spotify
+package thuypham.ptithcm.spotify.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import thuypham.ptithcm.spotify.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,11 +1,145 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorOrange</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
+        <item name="android:colorControlHighlight">@color/colorOrange</item>
+        <item name="colorAccent">@color/colorOrange</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
+    </style>
+
+
+    <style name="AppTheme.SplashScreen" parent="AppTheme">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="txtTitleLanding">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">44sp</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+
+    <style name="MyRadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textSize">16sp</item>
+        <item name="colorPrimary">@color/colorOrange</item>
+        <item name="colorControlActivated">@color/colorOrange</item>
+    </style>
+
+    <style name="editText">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textColorHint">#9B9B9B</item>
+        <item name="android:textSize">@dimen/edtSize</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="textView">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/edtSize</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="textNameSong">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#5E5E5E</item>
+    </style>
+
+    <style name="textArtistName">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#5E5E5E</item>
+    </style>
+
+    <style name="txtSmall">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/txtSizeSmall</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="txtSmall1">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#8D8D8D</item>
+    </style>
+
+    <style name="textTitleBold">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/txtTitleBanner</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="textTitleHome">
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#404040</item>
+    </style>
+
+
+    <style name="txtHeader1">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="txtHeader2">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/txtButtonSize</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="txtTnCollapse">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="txtToolbar1">
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/Black</item>
+    </style>
+
+    <style name="txtToolbar">
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textSize">@dimen/txtToolbarSize</item>
+        <item name="android:textColor">@color/colorTextButton</item>
+    </style>
+
+    <style name="txtToolbarBold">
+        <item name="android:letterSpacing">-0.05</item>
+        <item name="android:textSize">18.86sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#262626</item>
+    </style>
+
 
 </resources>

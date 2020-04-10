@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.LaunchFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_landing" />
+
+    <LinearLayout
+        android:id="@+id/ll_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/image_landing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo" />
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            style="@style/txtTitleLanding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spotify" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_your_ms"
+        style="@style/txtTitleLanding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange"
+        android:paddingStart="30dp"
+        android:paddingTop="40dp"
+        android:paddingEnd="10dp"
+        android:text="@string/your_music"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_turn_to_u"
+        style="@style/txtHeader1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#BFE55F2C"
+        android:padding="@dimen/paddingDefault"
+        android:paddingStart="30dp"
+        android:paddingEnd="@dimen/paddingDefault"
+        android:text="@string/tuned_to_you"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@id/tv_your_ms" />
+
+    <TextView
+        android:id="@+id/btn_create_acc"
+        style="@style/txtHeader2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorOrange"
+        android:gravity="center"
+        android:onClick="btnCreateAccClick"
+        android:padding="@dimen/paddingDefault"
+        android:text="@string/btnSignUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_login"
+        tools:ignore="OnClick" />
+
+    <TextView
+        android:id="@+id/btn_login"
+        style="@style/txtHeader2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:onClick="btnLoginClick"
+        android:padding="@dimen/paddingDefault"
+        android:text="@string/btnLogin"
+        android:textColor="@color/colorTextButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_create_acc"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

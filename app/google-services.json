@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "661424261164",
+    "firebase_url": "https://spotify-e08c4.firebaseio.com",
+    "project_id": "spotify-e08c4",
+    "storage_bucket": "spotify-e08c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661424261164:android:51de3641179cad43e6a989",
+        "android_client_info": {
+          "package_name": "thuypham.ptithcm.spotify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661424261164-gfbflc9g4vm1kollfq3ci2b5tv4jvh96.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLgBakHEoKmhqjScrrUNzWo1wK2Hb0xP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661424261164-gfbflc9g4vm1kollfq3ci2b5tv4jvh96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

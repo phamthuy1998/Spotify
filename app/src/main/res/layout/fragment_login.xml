@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="thuypham.ptithcm.spotify.viewmodel.AuthViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.auth.SignInFragment">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_landing"
+            android:onClick="hideKeyBoard"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_landing"
+            android:visibility="visible" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbLogin"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/txtToolbarBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_logotb"
+                    android:drawablePadding="@dimen/marginM"
+                    android:gravity="center"
+                    android:text="@string/dotify" />
+
+                <ImageView
+                    android:id="@+id/btnBackSignIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/button_back"
+                    android:padding="@dimen/paddingDefault"
+                    android:src="@drawable/ic_back_btn" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/btn_login_facebook"
+            style="@style/txtHeader2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tbLogin"
+            android:background="@color/colorBlueFb"
+            android:drawableStart="@drawable/ic_facebook"
+            android:gravity="center"
+            android:padding="@dimen/paddingDefault"
+            android:text="@string/btn_login_facebook" />
+
+        <TextView
+            android:id="@+id/tvOr"
+            style="@style/txtSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_login_facebook"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:text="@string/or" />
+
+        <LinearLayout
+            android:id="@+id/llUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOr"
+            android:layout_marginTop="@dimen/default_margin"
+            android:background="@color/colorWhite">
+
+            <EditText
+                android:id="@+id/edt_email"
+                style="@style/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:drawableStart="@drawable/ic_mail"
+                android:drawablePadding="@dimen/default_margin"
+                android:hint="@string/edt_email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/paddingEdt"
+                android:text="@={viewmodel.email}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llUsername"
+            android:layout_marginTop="@dimen/marginEdt"
+            android:background="@color/colorWhite">
+
+            <EditText
+                android:id="@+id/edt_password"
+                style="@style/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="19dp"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:padding="13dp"
+                android:singleLine="true"
+                android:text="@={viewmodel.password}" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnForgotPassword"
+            style="@style/txtSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="9dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/paddingDefault"
+            android:text="@string/forgot_password" />
+
+        <TextView
+            android:id="@+id/btnSignIn"
+            style="@style/txtHeader2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_rounded_corner"
+            android:backgroundTint="@{viewmodel.isValidateEmailPassword(viewmodel.email,viewmodel.password) ? @color/colorOrange : @color/colorGrayBtnEnable}"
+            android:clickable="true"
+            android:enabled="@{viewmodel.isValidateEmailPassword(viewmodel.email,viewmodel.password)}"
+            android:gravity="center"
+            android:onClick="@{(v) -> viewmodel.login(v)}"
+            android:padding="@dimen/paddingEdt"
+            android:text="@string/btnLogin" />
+
+        <ProgressBar
+            android:id="@+id/progressbarSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+</layout>
