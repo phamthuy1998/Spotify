@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="album"
+            type="thuypham.ptithcm.spotify.data.Album" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lineHeight"
+            android:background="#D7D7D7" />
+
+        <ImageView
+            android:layout_below="@id/tvLine"
+            android:id="@+id/ivSongAlbum"
+            imageFromUrl="@{album.imageURL}"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/marginM"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="9dp"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/trucxinh" />
+
+        <TextView
+            android:id="@+id/tvSongName"
+            style="@style/textAlbumName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivSongAlbum"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_toEndOf="@id/ivSongAlbum"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{album.albumName}"
+            tools:ignore="RelativeOverlap"
+            tools:text="Album's name" />
+
+        <TextView
+            android:id="@+id/tvArtist"
+            style="@style/textArtistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSongName"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_toEndOf="@id/ivSongAlbum"
+            android:text="@{album.artistName}"
+            tools:text="Artist's name" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSongShowMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:src="@drawable/ic_arrow_right"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+</layout>

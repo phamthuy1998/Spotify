@@ -22,7 +22,7 @@ import thuypham.ptithcm.spotify.util.*
 import thuypham.ptithcm.spotify.viewmodel.AuthViewModel
 import java.util.*
 
-class SignupFragment : Fragment(), TextWatcher {
+class SignUpFragment : Fragment(), TextWatcher {
 
     private lateinit var binding: FragmentSignupBinding
     private lateinit var viewModel: AuthViewModel
@@ -127,8 +127,11 @@ class SignupFragment : Fragment(), TextWatcher {
 
     private fun bindViewModel() {
         viewModel.registerStatus.observe(requireActivity(), Observer {
-            if (it == true)
+            if (it == true) {
+                Toast.makeText(requireContext(), "Create account success!", Toast.LENGTH_LONG)
+                    .show()
                 requireActivity().replaceFragment(id = R.id.frmLogin, fragment = SignInFragment())
+            }
         })
         viewModel.networkRegister.observe(this, Observer {
             when (it?.status) {

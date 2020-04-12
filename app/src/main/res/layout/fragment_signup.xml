@@ -91,135 +91,142 @@
             android:layout_marginTop="@dimen/default_margin"
             android:text="@string/or" />
 
-
-        <LinearLayout
-            android:id="@+id/llEmail"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvOrSignUp"
-            android:layout_marginTop="@dimen/default_margin"
-            android:background="@color/colorWhite">
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/btnSignUp"
+            android:layout_below="@id/tvOrSignUp">
 
-            <EditText
-                android:id="@+id/edt_email"
-                style="@style/editText"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_mail"
-                android:drawablePadding="@dimen/default_margin"
-                android:hint="@string/edt_email"
-                android:inputType="textEmailAddress"
-                android:padding="@dimen/paddingEdt"
-                android:text="@={viewmodel.email}" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/llUsernameSu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llEmail"
-            android:layout_marginTop="@dimen/marginEdt"
-            android:background="@color/colorWhite">
+                <LinearLayout
+                    android:id="@+id/llEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:background="@color/colorWhite">
 
-            <EditText
-                android:id="@+id/edt_user_name"
-                style="@style/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_user"
-                android:drawablePadding="@dimen/default_margin"
-                android:hint="@string/choose_username"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:padding="@dimen/paddingEdt" />
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/edt_email"
+                        style="@style/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:drawablePadding="@dimen/default_margin"
+                        android:hint="@string/edt_email"
+                        android:inputType="textEmailAddress"
+                        android:padding="@dimen/paddingEdt"
+                        android:text="@={viewmodel.email}" />
+                </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llUsernameSu"
-            android:layout_marginTop="@dimen/marginEdt"
-            android:background="@color/colorWhite">
+                <LinearLayout
+                    android:id="@+id/llUsernameSu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginEdt"
+                    android:background="@color/colorWhite">
 
-            <EditText
-                android:id="@+id/edt_password"
-                style="@style/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_lock"
-                android:drawablePadding="19dp"
-                android:hint="@string/password"
-                android:importantForAutofill="no"
-                android:inputType="textPassword"
-                android:padding="@dimen/paddingEdt"
-                android:text="@={viewmodel.password}" />
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/edt_user_name"
+                        style="@style/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/default_margin"
+                        android:hint="@string/choose_username"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName"
+                        android:padding="@dimen/paddingEdt" />
+                </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llDayOfBirth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llPassword"
-            android:layout_marginTop="@dimen/marginEdt"
-            android:background="@color/colorWhite">
+                <LinearLayout
+                    android:id="@+id/llPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginEdt"
+                    android:background="@color/colorWhite">
 
-            <EditText
-                android:id="@+id/edt_day_of_birth"
-                style="@style/editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableStart="@drawable/ic_birthday"
-                android:drawablePadding="@dimen/default_margin"
-                android:focusable="false"
-                android:hint="@string/day_of_birth"
-                android:importantForAutofill="no"
-                android:inputType="none"
-                android:padding="@dimen/paddingEdt" />
-        </LinearLayout>
+                    <EditText
+                        android:id="@+id/edt_password"
+                        style="@style/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawablePadding="19dp"
+                        android:hint="@string/password"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword"
+                        android:padding="@dimen/paddingEdt"
+                        android:text="@={viewmodel.password}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llDayOfBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginEdt"
+                    android:background="@color/colorWhite">
+
+                    <EditText
+                        android:id="@+id/edt_day_of_birth"
+                        style="@style/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableStart="@drawable/ic_birthday"
+                        android:drawablePadding="@dimen/default_margin"
+                        android:focusable="false"
+                        android:hint="@string/day_of_birth"
+                        android:importantForAutofill="no"
+                        android:inputType="none"
+                        android:padding="@dimen/paddingEdt" />
+                </LinearLayout>
 
 
-        <RadioGroup
-            android:id="@+id/radGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llDayOfBirth"
-            android:layout_marginTop="@dimen/marginEdt"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
-            android:padding="@dimen/paddingEdt"
-            android:theme="@style/MyRadioButtonStyle">
+                <RadioGroup
+                    android:id="@+id/radGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginEdt"
+                    android:background="@color/colorWhite"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/paddingEdt"
+                    android:theme="@style/MyRadioButtonStyle">
 
-            <TextView
-                style="@style/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/marginL"
-                android:drawableStart="@drawable/ic_user"
-                android:drawablePadding="@dimen/paddingDefault"
-                android:paddingStart="@dimen/paddingEdt"
-                android:text="@string/gender"
-                tools:ignore="RtlSymmetry" />
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/marginL"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawablePadding="@dimen/paddingDefault"
+                        android:paddingStart="@dimen/paddingEdt"
+                        android:text="@string/gender"
+                        tools:ignore="RtlSymmetry" />
 
-            <RadioButton
-                android:id="@+id/radMale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/male" />
+                    <RadioButton
+                        android:id="@+id/radMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/male" />
 
-            <RadioButton
-                android:id="@+id/radFemale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/radFemale" />
-        </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/radFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/radFemale" />
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <TextView
             android:id="@+id/btnSignUp"

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="song"
+            type="thuypham.ptithcm.spotify.data.Song" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.song.NowPlayingFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glCenterH"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSong"
+            imageFromUrl="@{song.imageURL}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:orientation="vertical"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@id/glCenterH"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/mockup_ipad_air" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnDismissSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginS"
+            android:layout_marginTop="@dimen/marginM"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/paddingM"
+            android:src="@drawable/ic_dismiss_music"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSongInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginM"
+            android:layout_marginEnd="@dimen/marginS"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/paddingM"
+            android:src="@drawable/ic_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/seekBarSong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/glCenterH" />
+
+        <TextView
+            android:id="@+id/tvTimePlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekBarSong"
+            tools:text="Time play" />
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekBarSong"
+            tools:text="Total time" />
+
+        <TextView
+            android:id="@+id/tvSongNameDetail"
+            style="@style/textH1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@{song.songName}"
+            android:textColor="@color/colorText"
+            app:layout_constraintBottom_toTopOf="@id/tvArtist"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.7"
+            tools:text="Song's name" />
+
+        <TextView
+            android:id="@+id/tvArtist"
+            style="@style/text15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textColor="#262626"
+            app:layout_constraintBottom_toTopOf="@id/btnPlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.7"
+            tools:text="Artist's name" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/btn_favorite_selector"
+            app:layout_constraintBottom_toBottomOf="@id/tvArtist"
+            app:layout_constraintEnd_toStartOf="@id/tvSongNameDetail"
+            app:layout_constraintTop_toTopOf="@id/tvSongNameDetail" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnMoreInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_more"
+            app:layout_constraintBottom_toBottomOf="@id/tvArtist"
+            app:layout_constraintStart_toEndOf="@id/tvSongNameDetail"
+            app:layout_constraintTop_toTopOf="@id/tvSongNameDetail" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/btn_play_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/glCenterH" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/btn_next_selector"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+            app:layout_constraintEnd_toStartOf="@+id/btnRepeat"
+            app:layout_constraintStart_toEndOf="@id/btnPlay"
+            app:layout_constraintTop_toTopOf="@id/btnPlay" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:src="@drawable/btn_repeat_selector"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnNext"
+            app:layout_constraintTop_toTopOf="@id/btnPlay" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnShuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:src="@drawable/btn_shuffle_selector"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+            app:layout_constraintEnd_toStartOf="@id/btnPre"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnPlay" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnPre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="5dp"
+            android:rotation="180"
+            android:src="@drawable/btn_next_selector"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlay"
+            app:layout_constraintEnd_toStartOf="@id/btnPlay"
+            app:layout_constraintStart_toEndOf="@id/btnShuffle"
+            app:layout_constraintTop_toTopOf="@id/btnPlay" />
+
+
+        <TextView
+            android:id="@+id/tvStatusSpeaker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_speaker"
+            android:drawablePadding="@dimen/paddingDefault"
+            android:text="@string/interal_speaker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPlay" />
+
+        <ProgressBar
+            android:id="@+id/progressSongInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

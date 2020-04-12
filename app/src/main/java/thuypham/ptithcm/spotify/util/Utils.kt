@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import thuypham.ptithcm.spotify.R
 
+
 fun Activity?.replaceFragment(
     @IdRes id: Int = R.id.frmLogin,
     fragment: Fragment,
@@ -29,8 +30,14 @@ fun Activity?.replaceFragment(
         }
 }
 
+fun Activity?.removeFragment(tag: String) {
+    val compatActivity = this as? AppCompatActivity ?: return
+    val fragment = compatActivity.supportFragmentManager.findFragmentByTag(tag)
+    if (fragment != null) supportFragmentManager.beginTransaction().remove(fragment).commit()
+}
+
 fun Activity?.addFragment(
-    @IdRes id: Int= R.id.frmLogin ,
+    @IdRes id: Int = R.id.frmLogin,
     fragment: Fragment,
     tag: String? = null,
     addToBackStack: Boolean = true

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="musicGenre"
+            type="thuypham.ptithcm.spotify.data.MusicGenre" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemMusicGenre"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/marginM"
+        android:background="@drawable/bg_rounded_corner"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="142dp"
+            android:layout_height="142dp"
+            android:layout_margin="@dimen/marginS"
+            android:background="@color/colorOrange"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivMusicGenre"
+            imageFromUrl="@{musicGenre.imageUrl}"
+            android:layout_width="142dp"
+            android:layout_height="142dp"
+            android:layout_margin="@dimen/marginS"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/music_genre" />
+
+        <ImageView
+            android:id="@+id/ivIconMg"
+            imageFromUrl="@{musicGenre.iconUrl}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvMusicGenre"
+            android:layout_alignStart="@+id/ivMusicGenre"
+            android:layout_alignEnd="@+id/ivMusicGenre"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@id/ivMusicGenre"
+            app:layout_constraintEnd_toEndOf="@id/ivMusicGenre"
+            app:layout_constraintStart_toStartOf="@id/ivMusicGenre"
+            app:layout_constraintTop_toTopOf="@id/ivMusicGenre"
+            tools:src="@drawable/pop" />
+
+        <TextView
+            android:id="@+id/tvMusicGenre"
+            style="@style/textItem"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivMusicGenre"
+            android:layout_marginTop="@dimen/marginM"
+            android:layout_marginBottom="@dimen/marginM"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{musicGenre.typeName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/ivMusicGenre"
+            app:layout_constraintStart_toStartOf="@id/ivMusicGenre"
+            app:layout_constraintTop_toBottomOf="@id/ivMusicGenre"
+            app:layout_goneMarginBottom="7dp"
+            tools:text="Name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

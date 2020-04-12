@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrayBgr"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbYourMs"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/marginM"
+                android:gravity="center"
+                android:text="@string/your_music" />
+
+            <ImageView
+                android:id="@+id/btnMenuYourMs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/button_back"
+                android:padding="@dimen/paddingDefault"
+                android:src="@drawable/ic_menu" />
+
+            <ImageView
+                android:id="@+id/btnSearchYourMs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:contentDescription="@string/button_back"
+                android:padding="@dimen/paddingDefault"
+                android:src="@drawable/ic_search" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:id="@+id/navYourMusic"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent">
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/btn_artist_selector"
+        app:layout_constraintEnd_toStartOf="@id/btnAlbum"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tbYourMs"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/btn_album_selector"
+        app:layout_constraintEnd_toStartOf="@id/btnSongs"
+        app:layout_constraintStart_toEndOf="@id/btnArtist"
+        app:layout_constraintTop_toBottomOf="@id/tbYourMs" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnSongs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/btn_song_selector"
+        app:layout_constraintEnd_toStartOf="@id/btnPlaylist"
+        app:layout_constraintStart_toEndOf="@id/btnAlbum"
+        app:layout_constraintTop_toBottomOf="@id/tbYourMs" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/btn_playlist_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnSongs"
+        app:layout_constraintTop_toBottomOf="@id/tbYourMs" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerYourMusic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnArtist" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

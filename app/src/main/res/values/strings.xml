@@ -94,5 +94,12 @@
     <string name="btnLogin">LOG IN</string>
     <string name="dotify">Dotify</string>
     <string name="choose_username">Choose username</string>
+    <string name="browse">Browse</string>
+    <string name="artists">ARTISTS</string>
+    <string name="playlists">PLAYLISTS</string>
+    <string name="songs">SONGS</string>
+    <string name="latest_release">LATEST RELEASE</string>
+    <string name="track_list">TRACK LIST</string>
+    <string name="logout">LOGOUT</string>
 
 </resources>

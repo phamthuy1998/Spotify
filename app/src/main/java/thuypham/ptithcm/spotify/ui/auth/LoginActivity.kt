@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun btnCreateAccClick(view: View) =
-        replaceFragment(id = R.id.frmLogin, fragment = SignupFragment(), addToBackStack = true)
+        replaceFragment(id = R.id.frmLogin, fragment = SignUpFragment(), addToBackStack = true)
 
     fun btnLoginClick(view: View) =
         replaceFragment(id = R.id.frmLogin, fragment = SignInFragment(), addToBackStack = true)

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="album"
+            type="thuypham.ptithcm.spotify.data.Album" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/ivAlbumItem"
+            imageFromUrl="@{album.imageURL}"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/trucxinh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFeAlbumName"
+            style="@style/textAlbumName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ivAlbumItem"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="34dp"
+            android:layout_toEndOf="@id/ivAlbumItem"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{album.albumName}"
+            android:textColor="@color/colorTextSong"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/tvArtistAlbum"
+            style="@style/textType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvFeAlbumName"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="34dp"
+            android:layout_toEndOf="@id/ivAlbumItem"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{album.artistAppendSongCounter()}"
+            android:textColor="@color/colorTextSong"
+            tools:text="Swiftheads - 11 songs" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="34dp"
+            android:src="@drawable/ic_arrow_right" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginEnd="34dp"
+            android:layout_height="1.01dp"
+            android:layout_below="@id/ivAlbumItem"
+            android:layout_marginTop="@dimen/marginM"
+            android:background="#B2B2B2" />
+
+    </RelativeLayout>
+</layout>

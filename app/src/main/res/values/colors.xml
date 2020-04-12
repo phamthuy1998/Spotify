@@ -17,4 +17,6 @@
     <color name="colorGrayLine">#CACACA</color>
     <color name="colorWhiteBg">#FFFFFF</color>
     <color name="colorGray">#6B6B6B</color>
+    <color name="colorGrayText">#262626</color>
+    <color name="colorGrayBgr">#F2F2F2</color>
 </resources>

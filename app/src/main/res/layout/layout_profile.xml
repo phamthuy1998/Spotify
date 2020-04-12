@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorOrange">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile_bg" />
+
+
+    <TextView
+        android:id="@+id/tvTb"
+        style="@style/txtToolbarBold"
+        android:layout_width="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/marginM"
+        android:drawableStart="@drawable/ic_logotb"
+        android:drawablePadding="@dimen/marginM"
+        android:gravity="center"
+        android:text="@string/dotify"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:layout_marginEnd="25dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/button_back"
+        android:padding="@dimen/paddingDefault"
+        android:src="@drawable/ic_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivProfilePhoto"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTb"
+        android:src="@drawable/country" />
+
+    <TextView
+        android:id="@+id/tvProfileName"
+        style="@style/text15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginM"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="200dp"
+        android:maxLines="2"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@id/ivProfilePhoto"
+        app:layout_constraintStart_toStartOf="@id/ivProfilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
+        tools:text="Name" />
+
+
+    <TextView
+        android:id="@+id/btnBrowser"
+        style="@style/textH1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_browser"
+        android:drawablePadding="18dp"
+        android:padding="@dimen/paddingM"
+        android:text="@string/browse"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
+
+    <TextView
+        android:id="@+id/btnYourMusic"
+        style="@style/textH1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_library_profile"
+        android:drawablePadding="18dp"
+        android:padding="@dimen/paddingM"
+        android:text="@string/your_music"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintTop_toBottomOf="@id/btnBrowser" />
+
+    <TextView
+        android:id="@+id/btnLogout"
+        style="@style/txtHeader2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="@dimen/paddingEdt"
+        android:text="@string/logout"
+        android:textColor="@color/colorOrange"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
