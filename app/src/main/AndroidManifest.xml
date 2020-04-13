@@ -33,11 +33,11 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-        <!--        <service-->
-        <!--            android:name=".service.SoundService"-->
-        <!--            android:enabled="true" />-->
+            android:windowSoftInputMode="adjustResize" />
+
+        <service
+            android:name=".service.SoundService"
+            android:enabled="true" />
 
         <!--        <provider-->
         <!--            android:name=".media.library.AlbumArtContentProvider"-->

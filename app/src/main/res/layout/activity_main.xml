@@ -1,166 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerMain"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="user"
+            type="thuypham.ptithcm.spotify.data.User" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawerMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/frmMain"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/frmNowPlaying"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </LinearLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navMain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorOrange">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <FrameLayout
+                android:id="@+id/frmMain"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/frmNowPlaying"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="bottom"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile_bg" />
+                android:background="@color/colorOrange"
+                android:fitsSystemWindows="true">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile_bg" />
 
 
-            <TextView
-                android:id="@+id/tvTb"
-                style="@style/txtToolbarBold"
-                android:layout_width="wrap_content"
-                android:layout_height="?actionBarSize"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/marginM"
-                android:drawableStart="@drawable/ic_logotb"
-                android:drawablePadding="@dimen/marginM"
-                android:gravity="center"
-                android:text="@string/dotify"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvTb"
+                    style="@style/txtToolbarBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?actionBarSize"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:drawableStart="@drawable/ic_logotb"
+                    android:drawablePadding="@dimen/marginM"
+                    android:gravity="center"
+                    android:text="@string/dotify"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/btnSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginM"
-                android:layout_marginEnd="20dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/button_back"
-                android:padding="@dimen/paddingDefault"
-                android:src="@drawable/ic_setting"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/btnSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:layout_marginEnd="20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/button_back"
+                    android:onClick="onSetting"
+                    android:padding="@dimen/paddingDefault"
+                    android:src="@drawable/ic_setting"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivProfilePhoto"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/country"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTb" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivProfilePhoto"
+                    imageFromUrlForAvt="@{user.profilePhoto}"
+                    android:layout_width="79dp"
+                    android:layout_height="79dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="25dp"
+                    android:onClick="onShowProfile"
+                    android:src="@drawable/ic_account"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTb" />
 
-            <TextView
-                android:id="@+id/tvProfileName"
-                style="@style/text15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/marginM"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:maxLines="2"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/ivProfilePhoto"
-                app:layout_constraintStart_toStartOf="@id/ivProfilePhoto"
-                app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
-                tools:text="Name" />
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    style="@style/text15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxWidth="200dp"
+                    android:maxLines="2"
+                    android:text="@{user.username}"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintEnd_toEndOf="@id/ivProfilePhoto"
+                    app:layout_constraintStart_toStartOf="@id/ivProfilePhoto"
+                    app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
+                    tools:text="Name" />
 
 
-            <TextView
-                android:id="@+id/btnBrowser"
-                style="@style/textH1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:drawableStart="@drawable/ic_browser"
-                android:drawablePadding="18dp"
-                android:padding="@dimen/paddingM"
-                android:text="@string/browse"
-                android:textAllCaps="true"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
+                <TextView
+                    android:id="@+id/btnBrowser"
+                    style="@style/textH1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_browser"
+                    android:drawablePadding="18dp"
+                    android:onClick="onShowBrowse"
+                    android:padding="@dimen/paddingM"
+                    android:text="@string/browse"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
 
-            <TextView
-                android:id="@+id/btnYourMusic"
-                style="@style/textH1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:drawableStart="@drawable/ic_library_profile"
-                android:drawablePadding="18dp"
-                android:padding="@dimen/paddingM"
-                android:text="@string/your_music"
-                android:textAllCaps="true"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintTop_toBottomOf="@id/btnBrowser" />
+                <TextView
+                    android:id="@+id/btnYourMusic"
+                    style="@style/textH1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_library_profile"
+                    android:drawablePadding="18dp"
+                    android:onClick="onShowYourMusic"
+                    android:padding="@dimen/paddingM"
+                    android:text="@string/your_music"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintTop_toBottomOf="@id/btnBrowser" />
 
-            <TextView
-                android:id="@+id/btnLogout"
-                style="@style/txtHeader2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:clickable="true"
-                android:gravity="center"
-                android:padding="@dimen/paddingEdt"
-                android:text="@string/logout"
-                android:textColor="@color/colorOrange"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                <TextView
+                    android:id="@+id/btnLogout"
+                    style="@style/txtHeader2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="logOut"
+                    android:padding="@dimen/paddingEdt"
+                    android:text="@string/logout"
+                    android:textColor="@color/colorOrange"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.navigation.NavigationView>
+        </com.google.android.material.navigation.NavigationView>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

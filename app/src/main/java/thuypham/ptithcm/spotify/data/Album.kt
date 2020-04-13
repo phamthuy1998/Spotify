@@ -13,7 +13,8 @@ data class Album(
     var description: String? = null,
     var songCounter: Int? = null
 ) {
-    fun artistAppendSongCounter() = "$artistName' - '$songCounter"
+    fun artistAppendSongCounter() =
+        if (songCounter != 1) "$artistName - $songCounter songs" else "$artistName - $songCounter song"
 
     @Exclude
     fun toMap(): Map<String, Any?> {

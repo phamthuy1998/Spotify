@@ -2,10 +2,7 @@ package thuypham.ptithcm.spotify.viewmodel
 
 import android.view.View
 import androidx.lifecycle.*
-import thuypham.ptithcm.spotify.data.Song
-import thuypham.ptithcm.spotify.data.Artist
-import thuypham.ptithcm.spotify.data.NetworkState
-import thuypham.ptithcm.spotify.data.ResultData
+import thuypham.ptithcm.spotify.data.*
 import thuypham.ptithcm.spotify.repository.ArtistRepository
 
 class ArtistViewModel(
@@ -13,6 +10,7 @@ class ArtistViewModel(
 ) : ViewModel() {
     private var requestSongOfArtist = MutableLiveData<ResultData<ArrayList<Song>>>()
     private var requestArtist = MutableLiveData<ResultData<Artist>>()
+    private var requestAlbumOfArtist = MutableLiveData<ResultData<Album>>()
     private var requestArtistFollowing = MutableLiveData<ResultData<ArrayList<Artist>>>()
     var checkFollowArtist = MutableLiveData<Boolean>()
     var artistID = MutableLiveData<String>()
@@ -22,7 +20,6 @@ class ArtistViewModel(
         Transformations.switchMap(requestSongOfArtist) {
             it.data
         }
-
 
     var requestFollowArtist = MutableLiveData<ResultData<Boolean>>()
     var requestUnFollowArtist = MutableLiveData<ResultData<Boolean>>()
@@ -70,6 +67,21 @@ class ArtistViewModel(
             it.networkState
         }
 
+    var albumArtist: LiveData<Album> =
+        Transformations.switchMap(requestAlbumOfArtist) {
+            it.data
+        }
+
+    var statusAlbumArtist: LiveData<NetworkState> =
+        Transformations.switchMap(requestAlbumOfArtist)
+        {
+            it.networkState
+        }
+
+    fun getLatestAlbumOfArtist(artistID: String){
+        requestAlbumOfArtist.value = repository.getLatestAlbum(artistID)
+    }
+
     fun getListArtistFollowing() {
         requestArtistFollowing.value = repository.getListArtistFollowing()
     }
@@ -85,28 +97,34 @@ class ArtistViewModel(
         if (view.isSelected) {
             if (artistInfo.value != null) {
                 requestFollowArtist.value = repository.followArtist(artistInfo.value!!)
+
+                artistInfo.value?.followCounter?.plus(1)?.let {
+                    artistInfo.value?.id?.let { it1 ->
+                        updateCounter(it1, it)
+                    }
+                }
             }
         } else {
             if (artistID.value != null) {
                 requestUnFollowArtist.value = repository.unFollowArtist(artistID.value!!)
+                artistInfo.value?.followCounter?.plus(1)?.let {
+                    updateCounter(artistID.value!!, it)
+                }
             }
         }
     }
 
-    fun onLikeArtistClick(v: View) {}
-
-    fun updateCounter(artistID: String, followCounter: Int) {
+    private fun updateCounter(artistID: String, followCounter: Int) {
         repository.updateFollowCounterOfArtist(artistID, followCounter)
     }
 
-    fun onPlayAllSongOfArtist(view: View) {
+    fun onShareArtistClick(view: View) {
+
+    }
+
+    fun onPlayAllArtistClick(view: View) {
         view.isSelected = !view.isSelected
     }
-
-    fun onShareArtistClick(view: View) {
-    }
-
-    fun onPlayAllArtistClick(v: View) {}
 }
 
 

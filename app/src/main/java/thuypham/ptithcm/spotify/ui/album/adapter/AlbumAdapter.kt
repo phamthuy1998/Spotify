@@ -1,4 +1,4 @@
-package thuypham.ptithcm.spotify.ui.browser.adapter
+package thuypham.ptithcm.spotify.ui.album.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

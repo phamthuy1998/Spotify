@@ -3,18 +3,16 @@ package thuypham.ptithcm.spotify.ui.browser.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import thuypham.ptithcm.spotify.data.MusicGenre
-import thuypham.ptithcm.spotify.data.TopHit
-import thuypham.ptithcm.spotify.databinding.ItemMusicGenreBinding
+import thuypham.ptithcm.spotify.data.Country
 import thuypham.ptithcm.spotify.databinding.ItemMusicTopHitBinding
 
 class TopHitAdapter(
-    private val topHitClick: (topHit: TopHit?) -> Unit
+    private val topHitClick: (country: Country) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var listTopHit: ArrayList<TopHit>? = arrayListOf()
+    private var listTopHit: ArrayList<Country>? = arrayListOf()
 
-    fun addDataTopHit(arr: ArrayList<TopHit>?) {
+    fun addDataTopHit(arr: ArrayList<Country>?) {
         if (arr != null)
             listTopHit?.apply {
                 clear()
@@ -41,9 +39,9 @@ class TopHitAdapter(
     inner class TopHitViewHolder(
         private val binding: ItemMusicTopHitBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TopHit) {
+        fun bind(item: Country) {
             binding.apply {
-                topHit = item
+                country = item
                 executePendingBindings()
                 itemTopHit.setOnClickListener { topHitClick(item) }
             }

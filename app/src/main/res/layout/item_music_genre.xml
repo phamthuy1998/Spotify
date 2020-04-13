@@ -13,29 +13,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemMusicGenre"
-        android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="@dimen/marginM"
-        android:background="@drawable/bg_rounded_corner"
-        android:backgroundTint="@color/colorWhite"
+        android:background="@color/colorWhite"
         android:orientation="vertical">
 
 
         <ImageView
-            android:layout_width="142dp"
-            android:layout_height="142dp"
-            android:layout_margin="@dimen/marginS"
-            android:background="@color/colorOrange"
-            android:contentDescription="@string/image_background"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
             android:id="@+id/ivMusicGenre"
-            imageFromUrl="@{musicGenre.imageUrl}"
+            imageFromUrl="@{musicGenre.typeImage}"
             android:layout_width="142dp"
             android:layout_height="142dp"
             android:layout_margin="@dimen/marginS"
@@ -47,15 +35,25 @@
             tools:src="@drawable/music_genre" />
 
         <ImageView
+            android:layout_width="142dp"
+            android:layout_height="142dp"
+            android:layout_margin="@dimen/marginS"
+            android:background="@color/colorOrangeTrans"
+            android:contentDescription="@string/image_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/ivIconMg"
-            imageFromUrl="@{musicGenre.iconUrl}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            imageFromUrl="@{musicGenre.icon_url}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_above="@+id/tvMusicGenre"
             android:layout_alignStart="@+id/ivMusicGenre"
             android:layout_alignEnd="@+id/ivMusicGenre"
             android:contentDescription="@string/image_background"
-            android:scaleType="centerCrop"
+            android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="@id/ivMusicGenre"
             app:layout_constraintEnd_toEndOf="@id/ivMusicGenre"
             app:layout_constraintStart_toStartOf="@id/ivMusicGenre"

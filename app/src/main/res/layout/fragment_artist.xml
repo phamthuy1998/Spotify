@@ -10,6 +10,10 @@
             type="thuypham.ptithcm.spotify.data.Artist" />
 
         <variable
+            name="album"
+            type="thuypham.ptithcm.spotify.data.Album" />
+
+        <variable
             name="viewModel"
             type="thuypham.ptithcm.spotify.viewmodel.ArtistViewModel" />
     </data>
@@ -77,9 +81,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginEnd="@dimen/default_margin"
-                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
-                        android:onClick="@{(v)->viewModel.onLikeArtistClick(v)}"
+                        android:onClick="@{(v)->viewModel.followArtistOnClick(v)}"
                         android:src="@drawable/btn_like_album_selector"
                         app:layout_constraintBottom_toBottomOf="@id/btnPlayArtist"
                         app:layout_constraintEnd_toStartOf="@id/btnPlayArtist"
@@ -90,7 +93,6 @@
                         android:id="@+id/btnPlayArtist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:onClick="@{(v)->viewModel.onPlayAllArtistClick(v)}"
                         android:src="@drawable/btn_play_album_selector"
@@ -194,24 +196,108 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvFeatureArtist"
+                    android:id="@+id/tvLatestRelease"
                     style="@style/textType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="11dp"
                     android:text="@string/latest_release"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rvTopHit" />
+
+                <RelativeLayout
+                    android:id="@+id/albumLatestRelease"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/lineHeight"
+                        android:background="#D7D7D7" />
+
+                    <ImageView
+                        android:layout_below="@id/tvLine"
+                        android:id="@+id/ivSongAlbum"
+                        imageFromUrl="@{album.imageURL}"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/marginM"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:layout_marginBottom="@dimen/marginM"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/trucxinh" />
+
+                    <TextView
+                        android:id="@+id/tvAlbumNameL"
+                        style="@style/textAlbumName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ivSongAlbum"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_toEndOf="@id/ivSongAlbum"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{album.albumName}"
+                        tools:ignore="RelativeOverlap"
+                        tools:text="Album's name" />
+
+                    <TextView
+                        style="@style/textArtistName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvAlbumNameL"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="@dimen/marginS"
+                        android:layout_toEndOf="@id/ivSongAlbum"
+                        android:text="@{album.artistName}"
+                        tools:text="Artist's name" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnSongShowMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:src="@drawable/ic_arrow_right"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_below="@id/ivSongAlbum"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/lineHeight"
+                        android:background="#D7D7D7" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvPopular"
+                    style="@style/textType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popular"
+                    android:layout_marginTop="@dimen/marginM"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rvTopHit" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="13dp"
                     android:id="@+id/rvSongArtist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_song" />
+
             </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

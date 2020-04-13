@@ -6,9 +6,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.NetworkState
 import thuypham.ptithcm.spotify.data.ResultData
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.util.FAVORITE_SONG
 import thuypham.ptithcm.spotify.util.HISTORY
 import thuypham.ptithcm.spotify.util.SONG

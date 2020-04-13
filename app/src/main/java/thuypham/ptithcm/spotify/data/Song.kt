@@ -1,7 +1,9 @@
 package thuypham.ptithcm.spotify.data
 import android.content.Context
+import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
+import kotlinx.android.parcel.Parcelize
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.base.DynamicSearchAdapter
 import kotlin.math.floor
@@ -78,9 +80,10 @@ data class Song(
         )
     }
 }
-
+@Parcelize
 data class Country(
     var id: String? = null,
     var countryName: String? = null,
-    var countryImage: String? = null
-)
+    var countryImage: String? = null,
+    var backgroundURL: String? = null
+): Parcelable

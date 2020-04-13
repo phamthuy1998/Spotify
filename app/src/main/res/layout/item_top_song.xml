@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="song"
+            type="thuypham.ptithcm.spotify.data.Song" />
+
+        <variable
+            name="position"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemSongAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvPosition"
+            style="@style/textNameSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivSongAlbum"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:text="@{position}"
+            tools:ignore="RelativeOverlap"
+            tools:text="01" />
+
+
+        <ImageView
+            android:id="@+id/ivSongAlbum"
+            imageRoundedFromUrl="@{song.imageURL}"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_toEndOf="@id/tvPosition"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/trucxinh" />
+
+        <TextView
+            android:id="@+id/tvSongName"
+            style="@style/textNameSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivSongAlbum"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_toEndOf="@id/ivSongAlbum"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{song.songName}"
+            tools:ignore="RelativeOverlap"
+            tools:text="aSong's name" />
+
+        <TextView
+            android:id="@+id/tvArtist"
+            style="@style/textArtistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSongName"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_toEndOf="@id/ivSongAlbum"
+            android:text="@{song.artistName}"
+            tools:text="Artist's name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/ivSongAlbum"
+            android:layout_marginTop="@dimen/default_margin"
+            android:background="#D7D7D7" />
+
+        <thuypham.ptithcm.spotify.ui.song.widget.SongPopupMenu
+            android:id="@+id/btnShowMoreSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:src="@drawable/ic_more"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+</layout>

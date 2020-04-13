@@ -4,114 +4,68 @@ import androidx.lifecycle.*
 import thuypham.ptithcm.spotify.data.*
 import thuypham.ptithcm.spotify.repository.BrowserRepository
 
-class HomeViewModel(
+class BrowserViewModel(
     private val repository: BrowserRepository
 ) : ViewModel() {
-    private var requestAdvertise = MutableLiveData<ResultData<ArrayList<Advertise>>>()
-    private var requestSongType = MutableLiveData<ResultData<ArrayList<MusicGenre>>>()
-    private var requestArtistList = MutableLiveData<ResultData<ArrayList<Artist>>>()
-    private var requestPlaylist = MutableLiveData<ResultData<ArrayList<Playlist>>>()
-    private var requestAlbum = MutableLiveData<ResultData<ArrayList<Album>>>()
-    private var requestUser = MutableLiveData<ResultData<User>>()
-
+    private var requestMusicGenre = MutableLiveData<ResultData<ArrayList<MusicGenre>>>()
+    private var requestTopMusic = MutableLiveData<ResultData<ArrayList<Country>>>()
+    private var requestAlbum = MutableLiveData<ResultData<Album>>()
 
     init {
-        getAdvertise()
-        getListArtist()
-        getSongType()
-        getPlaylist()
-        getUserInfo()
-        getListAlbum()
+        getMusicGenre()
+        getAlbumFeature()
+        getTopHit()
     }
 
     fun refresh() {
-        getAdvertise()
-        getListArtist()
-        getUserInfo()
-        getSongType()
-        getPlaylist()
-        getListAlbum()
+        getMusicGenre()
+        getAlbumFeature()
+        getTopHit()
     }
 
+    private fun getMusicGenre() {
+        requestMusicGenre.value = repository.getMusicGenre()
+    }
 
-    val userInfo: LiveData<User> =
-        Transformations.switchMap(requestUser) {
+    val listMusicGenre: LiveData<ArrayList<MusicGenre>> =
+        Transformations.switchMap(requestMusicGenre) {
             it.data
         }
 
-    val networkStateListSong: LiveData<NetworkState> =
-        Transformations.switchMap(requestUser) {
+    val networkStateMusicGenre: LiveData<NetworkState> =
+        Transformations.switchMap(requestMusicGenre) {
             it.networkState
         }
 
-    private fun getUserInfo() {
-        requestUser.value = repository.getUserInfo()
+
+    private fun getTopHit() {
+        requestTopMusic.value = repository.getTopHit()
     }
 
-    val listAdvertise: LiveData<java.util.ArrayList<Advertise>> =
-        Transformations.switchMap(requestAdvertise) {
+    val listTopHit: LiveData<ArrayList<Country>> =
+        Transformations.switchMap(requestTopMusic) {
             it.data
         }
 
-    val networkStateAdv: LiveData<NetworkState> = Transformations.switchMap(requestAdvertise) {
-        it.networkState
-    }
-
-    val listSongType: LiveData<java.util.ArrayList<MusicGenre>> =
-        Transformations.switchMap(requestSongType) {
-            it.data
+    val networkStateTopMusic: LiveData<NetworkState> =
+        Transformations.switchMap(requestTopMusic) {
+            it.networkState
         }
 
-    val networkStateSongType: LiveData<NetworkState> = Transformations.switchMap(requestSongType) {
-        it.networkState
+    private fun getAlbumFeature() {
+        requestAlbum.value = repository.getAlbum()
     }
 
-    val listPlaylist: LiveData<java.util.ArrayList<Playlist>> =
-        Transformations.switchMap(requestPlaylist) {
-            it.data
-        }
-
-    val networkStatePlaylist: LiveData<NetworkState> = Transformations.switchMap(requestPlaylist) {
-        it.networkState
-    }
-
-    val listAlbum: LiveData<java.util.ArrayList<Album>> =
+    val album: LiveData<Album> =
         Transformations.switchMap(requestAlbum) {
             it.data
         }
 
-    val networkStateAlbum: LiveData<NetworkState> = Transformations.switchMap(requestAlbum) {
-        it.networkState
-    }
-
-    val listArtist: LiveData<java.util.ArrayList<Artist>> =
-        Transformations.switchMap(requestArtistList) {
-            it.data
+    val networkStateAlbum: LiveData<NetworkState> =
+        Transformations.switchMap(requestAlbum) {
+            it.networkState
         }
 
-    val networkStateArtist: LiveData<NetworkState> = Transformations.switchMap(requestArtistList) {
-        it.networkState
-    }
-
-    private fun getListArtist() {
-        requestArtistList.value = repository.getListArtist()
-    }
-
-    private fun getAdvertise() {
-        requestAdvertise.value = repository.getAdvertise()
-    }
-
-    private fun getSongType() {
-        requestSongType.value = repository.getSongType()
-    }
-
-    private fun getPlaylist() {
-        requestPlaylist.value = repository.getPlaylist()
-    }
-
-    private fun getListAlbum() {
-        requestAlbum.value = repository.getListAlbum()
-    }
 }
 
 
@@ -120,6 +74,6 @@ class BrowserViewModelFactory(
     private val repository: BrowserRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = HomeViewModel(repository) as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = BrowserViewModel(repository) as T
 
 }

@@ -1,49 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="playlist"
             type="thuypham.ptithcm.spotify.data.Playlist" />
-
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/itemPlaylist"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/marginM"
-        android:background="@color/colorWhite"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivPlayList"
-            imageRoundedFromUrl="@{playlist.playlistImage}"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            imageRoundedFromUrl="@{playlist.playlistImage.toString()}"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_margin="@dimen/marginS"
+            android:layout_marginTop="@dimen/marginM"
+            android:layout_marginBottom="@dimen/marginM"
             android:contentDescription="@string/image_background"
             android:scaleType="centerCrop"
             tools:src="@drawable/country" />
 
-        <TextView
-            android:id="@+id/tvPlayList"
-            style="@style/textTitleBold"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/ivPlayList"
-            android:layout_margin="@dimen/marginS"
-            android:layout_marginTop="@dimen/marginS"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@color/colorText"
-            android:text="@{playlist.playlistName}"
-            android:textStyle="normal"
-            tools:text="Playlist name" />
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPlayList"
+                style="@style/textNameSong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/marginS"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@{playlist.playlistName.toString()}"
+                android:textColor="@color/colorText"
+                tools:text="Playlist name" />
+
+            <TextView
+                android:id="@+id/tvArtistNamePl"
+                style="@style/textArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/marginS"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@{playlist.artistName.toString()}"
+                android:textColor="@color/colorText"
+                tools:text="Playlist name" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

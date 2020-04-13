@@ -10,7 +10,9 @@ data class Playlist(
     var playlistImage: String? = null,
     var dayCreate: String? = null,
     var description: String? = null,
-    var songCounter: Int? = null
+    var songCounter: Int? = null,
+    var artistName: Int? = null,
+    var artistID: Int? = null
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -20,6 +22,7 @@ data class Playlist(
             "playlistImage" to playlistImage,
             "dayCreate" to dayCreate,
             "description" to description,
+            "artistName" to artistName,
             "songCounter" to songCounter
         )
     }

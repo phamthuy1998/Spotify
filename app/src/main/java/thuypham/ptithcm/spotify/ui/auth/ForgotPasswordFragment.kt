@@ -15,7 +15,7 @@ import thuypham.ptithcm.spotify.databinding.FragmentForgotPasswordBinding
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.util.invisible
 import thuypham.ptithcm.spotify.util.replaceFragment
-import thuypham.ptithcm.spotify.util.visible
+import thuypham.ptithcm.spotify.util.show
 import thuypham.ptithcm.spotify.viewmodel.AuthViewModel
 
 
@@ -60,7 +60,7 @@ class ForgotPasswordFragment : Fragment() {
                         ContextCompat.getColorStateList(requireContext(), R.color.colorOrange)
                 }
                 Status.RUNNING -> {
-                    binding.progressbarForgotPw.visible()
+                    binding.progressbarForgotPw.show()
                     binding.btnSendMailPw.isEnabled = false
                     binding.btnSendMailPw.backgroundTintList =
                         ContextCompat.getColorStateList(

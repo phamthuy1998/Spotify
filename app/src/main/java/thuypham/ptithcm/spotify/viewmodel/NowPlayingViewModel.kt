@@ -22,6 +22,7 @@ class NowPlayingViewModel(
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
     private var updatePosition = true
 
+    val songID = MutableLiveData<String>().apply { value = null }
     val songData: LiveData<Song> =
         Transformations.switchMap(requestSong) {
             it.data
@@ -71,7 +72,7 @@ class NowPlayingViewModel(
     }
 
     private fun checkPlaybackPosition(): Boolean = handler.postDelayed({
-//        val currPosition = playbackState.currentPlayBackPosition
+        //        val currPosition = playbackState.currentPlayBackPosition
 //        if (currentTimeMedia.value != currPosition)
 //            currentTimeMedia.postValue(currPosition)
 //        if (updatePosition)

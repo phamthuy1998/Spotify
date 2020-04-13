@@ -13,12 +13,32 @@ object Injection {
         return ArtistViewModelFactory(ArtistRepositoryImpl())
     }
 
+    fun provideAlbumViewModelFactory(): ViewModelProvider.Factory {
+        return AlbumViewModelFactory(AlbumRepositoryImpl())
+    }
+
     fun provideBrowserViewModelFactory(): ViewModelProvider.Factory {
         return BrowserViewModelFactory(BrowserRepositoryImpl())
     }
 
     fun provideNowPlayingViewModelFactory(): ViewModelProvider.Factory {
         return NowPlayingViewModelFactory(SongRepositoryImpl())
+    }
+
+    fun provideYourMusicViewModelFactory(): ViewModelProvider.Factory {
+        return YourMusicViewModelFactory(YourMusicRepositoryImpl())
+    }
+
+    fun provideProfileViewModelFactory(): ViewModelProvider.Factory {
+        return ProfileViewModelFactory(ProfileRepositoryImpl())
+    }
+
+    fun provideCountryViewModelFactory(): ViewModelProvider.Factory {
+        return CountryViewModelFactory(CountryRepositoryImpl())
+    }
+
+    fun provideMusicGenreViewModelFactory(): ViewModelProvider.Factory {
+        return MusicGenreViewModelFactory(MusicGenreRepositoryImpl())
     }
 
 }

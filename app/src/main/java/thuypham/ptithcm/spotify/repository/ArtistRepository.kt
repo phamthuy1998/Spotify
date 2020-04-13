@@ -6,17 +6,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import thuypham.ptithcm.spotify.data.Song
-import thuypham.ptithcm.spotify.data.Artist
-import thuypham.ptithcm.spotify.data.NetworkState
-import thuypham.ptithcm.spotify.data.ResultData
-import thuypham.ptithcm.spotify.util.ARTIST
-import thuypham.ptithcm.spotify.util.FOLLOW_ARTISTS
-import thuypham.ptithcm.spotify.util.SONG
+import thuypham.ptithcm.spotify.data.*
+import thuypham.ptithcm.spotify.util.*
 
 interface ArtistRepository {
     fun getListSongOfArtist(artistID: String): ResultData<ArrayList<Song>>
     fun getListArtistFollowing(): ResultData<ArrayList<Artist>>
+    fun getLatestAlbum(artistID: String): ResultData<Album>
     fun getArtistInfoByID(artistID: String): ResultData<Artist>
     fun followArtist(artist: Artist): ResultData<Boolean>
     fun updateFollowCounterOfArtist(artistID:String, followCounter:Int)
@@ -39,7 +35,7 @@ class ArtistRepositoryImpl : ArtistRepository {
         val listSong = ArrayList<Song>()
         var song: Song?
         val query = databaseRef()?.child(SONG)
-            ?.orderByChild("artistID")
+            ?.orderByChild(ARTIST_ID)
             ?.equalTo(artistID)
 
         val valueEventListener = object : ValueEventListener {
@@ -53,7 +49,7 @@ class ArtistRepositoryImpl : ArtistRepository {
                     responseListSong.value = listSong
                     networkState.postValue(NetworkState.LOADED)
                 } else {
-                    networkState.postValue(NetworkState.error("List empty!"))
+                    networkState.postValue(NetworkState.error("Artist does not have any song!"))
                 }
             }
 
@@ -99,6 +95,36 @@ class ArtistRepositoryImpl : ArtistRepository {
         query?.addValueEventListener(valueEventListener)
         return ResultData(
             data = responseListArtistFollow,
+            networkState = networkState
+        )
+    }
+
+    override fun getLatestAlbum(artistID: String): ResultData<Album> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseAlbum = MutableLiveData<Album>()
+        networkState.postValue(NetworkState.LOADING)
+        var album: Album?=null
+        val query = databaseRef()?.child(ALBUM)?.orderByChild(ARTIST_ID)?.equalTo(artistID)?.limitToLast(1)
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children) album = ds.getValue(Album::class.java)
+                    if (!album?.albumName.isNullOrEmpty()) {
+                        responseAlbum.value = album
+                        networkState.postValue(NetworkState.LOADED)
+                    } else
+                        networkState.postValue(NetworkState.error("No albums available!"))
+                } else {
+                    networkState.postValue(NetworkState.error("No albums available!"))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) =
+                networkState.postValue(NetworkState.error(databaseError.toException().toString()))
+        }
+        query?.addValueEventListener(valueEventListener)
+        return ResultData(
+            data = responseAlbum,
             networkState = networkState
         )
     }

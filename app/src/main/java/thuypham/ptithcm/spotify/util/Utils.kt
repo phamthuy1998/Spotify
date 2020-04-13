@@ -76,7 +76,7 @@ fun Context.startActivity(activity: Activity) =
         startActivity(it)
     }
 
-fun View.visible() {
+fun View.show() {
     visibility = View.VISIBLE
 }
 

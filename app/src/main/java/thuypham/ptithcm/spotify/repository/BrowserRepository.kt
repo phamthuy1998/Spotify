@@ -9,10 +9,12 @@ import com.google.firebase.database.ValueEventListener
 import thuypham.ptithcm.spotify.data.*
 import thuypham.ptithcm.spotify.util.*
 
-interface BrowserRepository{
+interface BrowserRepository {
     fun getAdvertise(): ResultData<ArrayList<Advertise>>
     fun getListArtist(): ResultData<ArrayList<Artist>>
-    fun getSongType(): ResultData<ArrayList<MusicGenre>>
+    fun getMusicGenre(): ResultData<ArrayList<MusicGenre>>
+    fun getTopHit(): ResultData<ArrayList<Country>>
+    fun getAlbum(): ResultData<Album>
     fun getPlaylist(): ResultData<ArrayList<Playlist>>
     fun getListAlbum(): ResultData<ArrayList<Album>>
     fun getUserInfo(): ResultData<User>
@@ -97,7 +99,7 @@ class BrowserRepositoryImpl : BrowserRepository {
         )
     }
 
-    override fun getSongType(): ResultData<ArrayList<MusicGenre>> {
+    override fun getMusicGenre(): ResultData<ArrayList<MusicGenre>> {
         val networkState = MutableLiveData<NetworkState>()
         val responseSongType = MutableLiveData<ArrayList<MusicGenre>>()
         networkState.postValue(NetworkState.LOADING)
@@ -126,6 +128,71 @@ class BrowserRepositoryImpl : BrowserRepository {
 
         return ResultData(
             data = responseSongType,
+            networkState = networkState
+        )
+    }
+
+    override fun getTopHit(): ResultData<ArrayList<Country>> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseTopHit = MutableLiveData<ArrayList<Country>>()
+        networkState.postValue(NetworkState.LOADING)
+        val listTopHit = ArrayList<Country>()
+        var country: Country?
+        val query = databaseRef()?.child(COUNTRY)
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children) {
+                        country = ds.getValue(Country::class.java)
+                        country?.let { listTopHit.add(it) }
+                    }
+                    listTopHit.reverse()
+                    responseTopHit.value = listTopHit ?: arrayListOf()
+                    networkState.postValue(NetworkState.LOADED)
+                } else {
+                    networkState.postValue(NetworkState.error("List empty"))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) =
+                networkState.postValue(NetworkState.error(databaseError.toException().toString()))
+        }
+        query?.addValueEventListener(valueEventListener)
+
+        return ResultData(
+            data = responseTopHit,
+            networkState = networkState
+        )
+    }
+
+    override fun getAlbum(): ResultData<Album> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseAlbum = MutableLiveData<Album>()
+        networkState.postValue(NetworkState.LOADING)
+        var album: Album? = null
+        val query = databaseRef()?.child(ALBUM)?.limitToLast(1)
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children)
+                        album = ds.getValue(Album::class.java)
+                    if (album != null) {
+                        responseAlbum.value = album
+                        networkState.postValue(NetworkState.LOADED)
+                    } else
+                        networkState.postValue(NetworkState.error("Can't load album!"))
+                } else {
+                    networkState.postValue(NetworkState.error("Can't load album!"))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) =
+                networkState.postValue(NetworkState.error(databaseError.toException().toString()))
+        }
+        query?.addValueEventListener(valueEventListener)
+        return ResultData(
+            data = responseAlbum,
             networkState = networkState
         )
     }

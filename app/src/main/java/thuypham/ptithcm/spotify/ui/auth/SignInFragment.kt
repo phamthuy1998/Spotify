@@ -18,7 +18,7 @@ import thuypham.ptithcm.spotify.ui.main.MainActivity
 import thuypham.ptithcm.spotify.util.invisible
 import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.util.startActivity
-import thuypham.ptithcm.spotify.util.visible
+import thuypham.ptithcm.spotify.util.show
 import thuypham.ptithcm.spotify.viewmodel.AuthViewModel
 
 class SignInFragment : Fragment() {
@@ -75,7 +75,7 @@ class SignInFragment : Fragment() {
                         ContextCompat.getColorStateList(requireContext(), R.color.colorOrange)
                 }
                 Status.RUNNING -> {
-                    binding.progressbarSignIn.visible()
+                    binding.progressbarSignIn.show()
                     binding.btnSignIn.isEnabled = false
                     binding.btnSignIn.backgroundTintList =
                         ContextCompat.getColorStateList(

@@ -44,6 +44,7 @@
     <string name="duration_unknown">--:--</string>
     <string name="find">Find</string>
     <string name="account_information">Account information</string>
+    <string name="titleDialogSignOut">"Are you sure you want to log out this account?"</string>
     <string name="edit_profile">Edit profile</string>
     <string name="favorite_song">Favorite songs</string>
     <string name="artist">Artists</string>
@@ -101,5 +102,6 @@
     <string name="latest_release">LATEST RELEASE</string>
     <string name="track_list">TRACK LIST</string>
     <string name="logout">LOGOUT</string>
+    <string name="popular">POPULAR</string>
 
 </resources>

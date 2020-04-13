@@ -148,7 +148,7 @@ class SignUpFragment : Fragment(), TextWatcher {
 
                 }
                 Status.RUNNING -> {
-                    binding.progressbarSignUp.visible()
+                    binding.progressbarSignUp.show()
                     binding.btnSignUp.isEnabled = false
                     binding.btnSignUp.setBackgroundColor(
                         ContextCompat.getColor(

@@ -1,179 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.browser.BrowseFragment">
+<layout>
 
-    <ImageView
+    <data>
+
+        <variable
+            name="album"
+            type="thuypham.ptithcm.spotify.data.Album" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/image_landing"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_landing"
-        android:visibility="visible" />
+        android:orientation="vertical"
+        tools:context=".ui.browser.BrowseFragment">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/image_landing"
-        android:scaleType="centerCrop"
-        android:src="@drawable/gradient_bg"
-        android:visibility="visible" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbBrowse"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_landing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_landing"
+            android:visibility="visible" />
 
-            <TextView
-                style="@style/txtToolbarBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:drawableStart="@drawable/ic_logotb"
-                android:drawablePadding="@dimen/marginM"
-                android:gravity="center"
-                android:text="@string/dotify" />
-
-            <ImageView
-                android:onClick="openNav"
-                android:id="@+id/btnMenuBrowser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/button_back"
-                android:padding="@dimen/paddingDefault"
-                android:src="@drawable/ic_menu"
-                tools:ignore="OnClick" />
-
-            <ImageView
-                android:id="@+id/btnSearchBrowser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/button_back"
-                android:padding="@dimen/paddingDefault"
-                android:layout_marginEnd="@dimen/marginM"
-                android:src="@drawable/ic_search" />
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbBrowse">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_landing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gradient_bg"
+            android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tvBrowser"
-                style="@style/textSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/browse"
-                android:textAllCaps="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbBrowse"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTopHit"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/marginS"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvBrowser"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_music_top_hit" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvFeatureAlbum"
-                style="@style/textType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="20dp"
-                android:text="@string/featured_album"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvTopHit" />
+                <TextView
+                    style="@style/txtToolbarBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_logotb"
+                    android:drawablePadding="@dimen/marginM"
+                    android:gravity="center"
+                    android:text="@string/dotify" />
 
-            <TextView
-                android:id="@+id/lineFeature"
+                <ImageView
+                    android:id="@+id/btnMenuBrowser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/button_back"
+                    android:onClick="openNav"
+                    android:padding="@dimen/paddingDefault"
+                    android:src="@drawable/ic_menu"
+                    tools:ignore="OnClick" />
+
+                <ImageView
+                    android:id="@+id/btnSearchBrowser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/marginM"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/button_back"
+                    android:padding="@dimen/paddingDefault"
+                    android:src="@drawable/ic_search" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swRefreshBrowser"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbBrowse">
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="1.01dp"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="34dp"
-                android:background="#B2B2B2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFeatureAlbum" />
+                android:layout_height="match_parent">
 
-            <include
-                android:id="@+id/itemFeaturedAlbum"
-                layout="@layout/item_feature_album"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/marginM"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineFeature" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvGenresMoods"
-                style="@style/textType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="25dp"
-                android:text="@string/genres_moods"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/itemFeaturedAlbum" />
+                    <TextView
+                        android:id="@+id/tvBrowser"
+                        style="@style/textSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/browse"
+                        android:textAllCaps="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGenreMood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/marginS"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGenresMoods"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_music_genre" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTopHit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginS"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvBrowser"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_music_top_hit" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvFeatureAlbum"
+                        style="@style/textType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/featured_album"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rvTopHit" />
 
-    </androidx.core.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/lineFeature"
+                        android:layout_width="match_parent"
+                        android:layout_height="1.01dp"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginEnd="34dp"
+                        android:background="#B2B2B2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvFeatureAlbum" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <RelativeLayout
+                        android:id="@+id/itemFeaturedAlbum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="@dimen/marginM"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lineFeature">
+
+
+                        <ImageView
+                            android:id="@+id/ivAlbumItem"
+                            imageFromUrl="@{album.imageURL}"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@string/image_background"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@drawable/trucxinh" />
+
+                        <TextView
+                            android:id="@+id/tvFeAlbumName"
+                            style="@style/textAlbumName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/ivAlbumItem"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginEnd="34dp"
+                            android:layout_toEndOf="@id/ivAlbumItem"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{album.albumName}"
+                            android:textColor="@color/colorTextSong"
+                            tools:text="Name" />
+
+                        <TextView
+                            android:id="@+id/tvArtistAlbum"
+                            style="@style/textType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvFeAlbumName"
+                            android:layout_marginStart="14dp"
+                            android:layout_marginEnd="34dp"
+                            android:layout_toEndOf="@id/ivAlbumItem"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{album.artistAppendSongCounter()}"
+                            android:textColor="@color/colorTextSong"
+                            tools:text="Swiftheads - 11 songs" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginEnd="34dp"
+                            android:src="@drawable/ic_arrow_right" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1.01dp"
+                            android:layout_below="@id/ivAlbumItem"
+                            android:layout_marginTop="@dimen/marginM"
+                            android:layout_marginEnd="34dp"
+                            android:background="#B2B2B2" />
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/tvGenresMoods"
+                        style="@style/textType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="25dp"
+                        android:text="@string/genres_moods"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/itemFeaturedAlbum" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGenreMood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginS"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvGenresMoods"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_music_genre" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/default_margin"
+                        app:layout_constraintTop_toBottomOf="@id/rvGenreMood" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBrowser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

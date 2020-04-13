@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://scshemas.android.com/tools"
     xmlns:tools1="http://schemas.android.com/tools"
-    android:id="@+id/rvArtist"
+    android:id="@+id/swRefreshArtist"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="23dp"
-    android:layout_marginTop="11dp"
-    android:layout_marginEnd="23dp"
-    android:orientation="vertical"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:itemCount="3"
-    tools1:listitem="@layout/item_artist"/>
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvArtist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="23dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools1:listitem="@layout/item_artist"
+            tools:itemCount="3" />
+
+        <include
+            android:id="@+id/llArtistEmpty"
+            layout="@layout/list_empty"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

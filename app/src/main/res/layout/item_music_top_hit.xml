@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="topHit"
-            type="thuypham.ptithcm.spotify.data.TopHit" />
+            name="country"
+            type="thuypham.ptithcm.spotify.data.Country" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
 
         <ImageView
             android:id="@+id/ivMusicGenre"
-            imageFromUrl="@{topHit.imageURL}"
+            imageFromUrl="@{country.countryImage}"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_margin="@dimen/marginS"
@@ -31,18 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/trucxinh" />
-
-        <TextView
-            android:id="@+id/tvTitleTopSong"
-            android:text="@{topHit.title}"
-            android:layout_width="wrap_content"
-            style="@style/txtTitleTopHit"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/ivMusicGenre"
-            app:layout_constraintEnd_toEndOf="@id/ivMusicGenre"
-            app:layout_constraintStart_toStartOf="@id/ivMusicGenre"
-            app:layout_constraintTop_toTopOf="@id/ivMusicGenre"
-            tools:text="Name" />
 
         <TextView
             android:id="@+id/tvMusicGenre"
@@ -55,7 +43,7 @@
             android:layout_marginBottom="@dimen/marginM"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{topHit.name}"
+            android:text="@{country.countryName}"
             android:textColor="#404040"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/ivMusicGenre"

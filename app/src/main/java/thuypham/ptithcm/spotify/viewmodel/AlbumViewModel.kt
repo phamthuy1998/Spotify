@@ -2,10 +2,10 @@ package thuypham.ptithcm.spotify.viewmodel
 
 import android.view.View
 import androidx.lifecycle.*
-import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Album
 import thuypham.ptithcm.spotify.data.NetworkState
 import thuypham.ptithcm.spotify.data.ResultData
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.repository.AlbumRepository
 
 class AlbumViewModel(
@@ -13,6 +13,7 @@ class AlbumViewModel(
 ) : ViewModel() {
     private var requestSongOfAlbum = MutableLiveData<ResultData<ArrayList<Song>>>()
     private var requestAlbum = MutableLiveData<ResultData<Album>>()
+    private var requestListAlbum = MutableLiveData<ResultData<ArrayList<Album>>>()
     var statusLikeAlbum = MutableLiveData<NetworkState>()
     var statusUnLikeAlbum = MutableLiveData<NetworkState>()
     var checkAlbumIsLike = MutableLiveData<Boolean>()
@@ -28,6 +29,15 @@ class AlbumViewModel(
             it.networkState
         }
 
+    val listAlbum: LiveData<ArrayList<Album>> =
+        Transformations.switchMap(requestListAlbum) {
+            it.data
+        }
+
+    val networkStateListAlbum: LiveData<NetworkState> =
+        Transformations.switchMap(requestListAlbum) {
+            it.networkState
+        }
 
     var album: LiveData<Album> =
         Transformations.switchMap(requestAlbum) {
@@ -43,10 +53,14 @@ class AlbumViewModel(
         requestSongOfAlbum.value = repository.getListSongOfAlbum(albumID)
     }
 
+    fun getAllListAlbum() {
+        requestListAlbum.value = repository.getListAlbum()
+    }
+
     fun getAlbumInfo(_albumID: String) {
         requestAlbum.value = repository.getAlbumInfoByID(_albumID)
         this.albumID.value = _albumID
-        checkAlbumIsLike= repository.checkLikeAlbum(_albumID)
+        checkAlbumIsLike = repository.checkLikeAlbum(_albumID)
     }
 
     fun onLikeAlbumClick(view: View) {
@@ -68,7 +82,6 @@ class AlbumViewModel(
 
     }
 }
-
 
 @Suppress("UNCHECKED_CAST")
 class AlbumViewModelFactory(

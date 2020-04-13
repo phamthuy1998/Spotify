@@ -26,33 +26,18 @@ fun bindImageBlur(view: ImageView, imageUrl: String?) {
         Glide.with(view.context)
             .load(imageUrl)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .transform( BlurTransformation(50))
+            .transform(BlurTransformation(70))
             .into(view)
     }
 }
 
 @BindingAdapter("imageFromUrlForAvt")
 fun bindImageFromUrlAvatar(view: ImageView, imageUrl: String?) {
-    if (!imageUrl.isNullOrEmpty()) {
+    if (!imageUrl.isNullOrEmpty())
         Glide.with(view.context)
             .load(imageUrl)
             .error(R.drawable.ic_account)
             .into(view)
-    } else
-        view.setImageResource(R.drawable.ic_account)
-
-}
-
-@BindingAdapter("imageFromUrlForAvt")
-fun bindImageFromUrlCircle(view: ImageView, imageUrl: String?) {
-    if (!imageUrl.isNullOrEmpty()) {
-        Glide.with(view.context)
-            .load(imageUrl)
-            .error(R.drawable.gradient_item_banner)
-            .into(view)
-    } else
-        view.setImageResource(R.drawable.gradient_item_banner)
-
 }
 
 @BindingAdapter("imageRoundedFromUrl")

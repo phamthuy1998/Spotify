@@ -37,6 +37,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:contentDescription="@string/button_back"
+                android:onClick="openNav"
                 android:padding="@dimen/paddingDefault"
                 android:src="@drawable/ic_menu" />
 
@@ -53,16 +54,6 @@
                 android:src="@drawable/ic_search" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-
-
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
-        android:id="@+id/navYourMusic"
-        android:fitsSystemWindows="true"
-        android:layout_height="match_parent">
-
-    </com.google.android.material.navigation.NavigationView>
-
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnArtist"
