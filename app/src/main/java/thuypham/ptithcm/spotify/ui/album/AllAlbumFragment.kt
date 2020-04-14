@@ -24,11 +24,11 @@ class AllAlbumFragment : Fragment() {
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private val albumAdapter by lazy {
-        AlbumAdapter(this::itemAlbumClick)
+        AlbumAdapter(mutableListOf() ,this::itemAlbumClick)
     }
 
     private fun itemAlbumClick(id: String?) {
-        val albumFragment = AlbumFragment()
+        val albumFragment = AlbumDetailFragment()
         val arguments = Bundle()
         arguments.putString("albumID", id)
         albumFragment.arguments = arguments
@@ -44,6 +44,7 @@ class AllAlbumFragment : Fragment() {
         nowPlayingViewModel = ViewModelProviders
             .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
             .get(NowPlayingViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -68,7 +69,7 @@ class AllAlbumFragment : Fragment() {
             swRefreshAllAlbum.isRefreshing = false
         }
         btnBackAllAlbum.setOnClickListener { requireActivity().onBackPressed() }
-        edtSearch.addTextChangedListener(object : TextWatcher {
+        edtSearchAlbum.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -77,6 +78,13 @@ class AllAlbumFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                albumAdapter.search(s.toString(), {
+                    llSearchAllAlbumNotFound.show()
+                    albumAdapter.removeAllData()
+                }, {
+                    albumAdapter.addDataSearch(it)
+                    llSearchAllAlbumNotFound.gone()
+                })
             }
         })
     }

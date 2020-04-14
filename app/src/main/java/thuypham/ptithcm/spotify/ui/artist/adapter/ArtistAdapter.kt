@@ -3,22 +3,39 @@ package thuypham.ptithcm.spotify.ui.artist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import thuypham.ptithcm.spotify.base.DynamicSearchAdapter
 import thuypham.ptithcm.spotify.data.Artist
 import thuypham.ptithcm.spotify.databinding.ItemArtistBinding
 
 class ArtistAdapter(
+    private var listArtist: MutableList<Artist>? = arrayListOf(),
     private val itemArtistClick: (artistId: String?) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var listArtist: ArrayList<Artist>? = arrayListOf()
+) : DynamicSearchAdapter<Artist>(listArtist) {
 
     fun addDataArtist(arr: ArrayList<Artist>?) {
         if (arr != null)
             listArtist?.apply {
                 clear()
                 addAll(arr)
+                updateData(arr)
                 notifyDataSetChanged()
             }
+    }
+
+
+    fun addDataSearch(arr: MutableList<Artist>) {
+        listArtist?.apply {
+            clear()
+            addAll(arr)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun removeAllData() {
+        listArtist?.apply {
+            clear()
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int = listArtist?.size ?: 0

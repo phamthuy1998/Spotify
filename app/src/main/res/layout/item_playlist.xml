@@ -11,55 +11,66 @@
             type="thuypham.ptithcm.spotify.data.Playlist" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/itemPlaylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorGrayLine" />
+
 
         <ImageView
             android:id="@+id/ivPlayList"
             imageRoundedFromUrl="@{playlist.playlistImage.toString()}"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_margin="@dimen/marginS"
+            android:layout_below="@id/line"
+            android:layout_margin="@dimen/marginM"
             android:layout_marginTop="@dimen/marginM"
             android:layout_marginBottom="@dimen/marginM"
             android:contentDescription="@string/image_background"
             android:scaleType="centerCrop"
             tools:src="@drawable/country" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvPlayList"
+            style="@style/textNameSong"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/marginS"
+            android:layout_toEndOf="@id/ivPlayList"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@{playlist.playlistName.toString()}"
+            android:textColor="@color/colorText"
+            tools:text="Playlist name" />
 
-            <TextView
-                android:id="@+id/tvPlayList"
-                style="@style/textNameSong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginS"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                android:text="@{playlist.playlistName.toString()}"
-                android:textColor="@color/colorText"
-                tools:text="Playlist name" />
+        <TextView
+            android:layout_toEndOf="@id/ivPlayList"
+            android:layout_below="@id/tvPlayList"
+            android:id="@+id/tvArtistNamePl"
+            style="@style/textArtistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginS"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="@{playlist.artistName.toString()}"
+            android:textColor="@color/colorText"
+            tools:text="Playlist name" />
 
-            <TextView
-                android:id="@+id/tvArtistNamePl"
-                style="@style/textArtistName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginS"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                android:text="@{playlist.artistName.toString()}"
-                android:textColor="@color/colorText"
-                tools:text="Playlist name" />
-        </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 </layout>

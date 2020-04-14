@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_album.*
-import kotlinx.android.synthetic.main.fragment_albums.swRefreshAlbum
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.EventTypeSong
 import thuypham.ptithcm.spotify.data.Status
@@ -22,7 +21,7 @@ import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.viewmodel.AlbumViewModel
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 
-class AlbumFragment : Fragment() {
+class AlbumDetailFragment : Fragment() {
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private lateinit var binding: FragmentAlbumBinding
@@ -32,6 +31,7 @@ class AlbumFragment : Fragment() {
             this::songEvents
         )
     }
+
     private fun songEvents(songId: String?, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
@@ -87,13 +87,13 @@ class AlbumFragment : Fragment() {
         addEvents()
     }
 
-
     private fun addEvents() {
-        swRefreshAlbum.setOnRefreshListener {
+        binding.swRefreshAlbum.setOnRefreshListener {
             refreshAlbum()
-            swRefreshAlbum.isRefreshing = false
+            binding.swRefreshAlbum.isRefreshing = false
         }
-        btnBackAlbum.setOnClickListener { requireActivity().onBackPressed() }
+        binding.btnBackAlbum.setOnClickListener { requireActivity().onBackPressed() }
+        binding.btnLikeAlbum.setOnClickListener { albumViewModel.onLikeAlbumClick(binding.btnLikeAlbum) }
     }
 
     private fun refreshAlbum() {

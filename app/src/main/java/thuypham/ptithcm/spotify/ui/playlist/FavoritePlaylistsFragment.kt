@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_playlists.*
+import kotlinx.android.synthetic.main.list_empty.*
 import thuypham.ptithcm.spotify.R
+import thuypham.ptithcm.spotify.data.Playlist
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.playlist.adapter.PlayListAdapter
+import thuypham.ptithcm.spotify.util.PLAYLIST
 import thuypham.ptithcm.spotify.util.gone
 import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.util.show
@@ -22,7 +25,7 @@ class FavoritePlaylistsFragment : Fragment() {
 
     private lateinit var viewModel: YourMusicViewModel
     private val playlistAdapter by lazy {
-        PlayListAdapter(this::playlistEvent)
+        PlayListAdapter(mutableListOf(), this::playlistEvent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,13 +35,13 @@ class FavoritePlaylistsFragment : Fragment() {
             .get(YourMusicViewModel::class.java)
     }
 
-    private fun playlistEvent(playlistID: String?) {
+    private fun playlistEvent(playlist: Playlist?) {
         val playlistFragment = PlaylistDetailFragment()
         val arguments = Bundle()
-        arguments.putString("playlistID", playlistID)
+        arguments.putParcelable(PLAYLIST, playlist)
         playlistFragment.arguments = arguments
         requireActivity()
-            .replaceFragment(id = R.id.container, fragment = playlistFragment, addToBackStack = true)
+            .replaceFragment(id = R.id.frmMain, fragment = playlistFragment, addToBackStack = true)
     }
 
     override fun onCreateView(
@@ -63,7 +66,17 @@ class FavoritePlaylistsFragment : Fragment() {
             viewModel.getPlaylist()
             swRefreshPlaylist.isRefreshing = false
         }
+        btnFind.setOnClickListener { showPlaylistFragment()}
     }
+
+    private fun showPlaylistFragment() {
+        requireActivity().replaceFragment(
+            id = R.id.frmMain,
+            fragment = PlaylistFragment(),
+            addToBackStack = true
+        )
+    }
+
 
     private fun initRecyclerView() {
         rvPlaylist.adapter = playlistAdapter

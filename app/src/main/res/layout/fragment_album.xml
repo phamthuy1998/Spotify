@@ -78,7 +78,6 @@
                         android:layout_marginEnd="@dimen/default_margin"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
-                        android:onClick="@{(v)->viewModel.onLikeAlbumClick(v)}"
                         android:src="@drawable/btn_like_album_selector"
                         app:layout_constraintBottom_toBottomOf="@id/btnPlayAlbum"
                         app:layout_constraintEnd_toStartOf="@id/btnPlayAlbum"

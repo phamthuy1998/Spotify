@@ -19,7 +19,7 @@ interface AlbumRepository{
     fun getListAlbum(): ResultData<ArrayList<Album>>
     fun getAlbumInfoByID(albumID: String): ResultData<Album>
     fun addAlbumFavorite(album: Album): MutableLiveData<NetworkState>
-    fun removeAlbumFavorite(albumID: String): MutableLiveData<NetworkState>
+    fun removeAlbumFavorite(album: Album): MutableLiveData<NetworkState>
     fun checkLikeAlbum(albumID: String): MutableLiveData<Boolean>
 }
 
@@ -137,6 +137,8 @@ class AlbumRepositoryImpl : AlbumRepository {
         val query = databaseRef()?.child(FAVORITE_ALBUM)?.child(currentUser()?.uid.toString())
             ?.child(album.id.toString())
         query?.setValue(album)?.addOnSuccessListener {
+            databaseRef()?.child(ALBUM)?.child(album.id.toString())?.child("likeCounter")
+                ?.setValue(album.likeCounter?.plus(1))
             networkState.postValue(NetworkState.LOADED)
         }?.addOnFailureListener { err ->
             networkState.postValue(NetworkState.error(err.message.toString()))
@@ -144,11 +146,13 @@ class AlbumRepositoryImpl : AlbumRepository {
         return networkState
     }
 
-    override fun removeAlbumFavorite(albumID: String): MutableLiveData<NetworkState> {
+    override fun removeAlbumFavorite(album: Album): MutableLiveData<NetworkState> {
         val networkState = MutableLiveData<NetworkState>()
         val query = databaseRef()?.child(FAVORITE_ALBUM)?.child(currentUser()?.uid.toString())
-            ?.child(albumID)
+            ?.child(album.id.toString())
         query?.removeValue()?.addOnSuccessListener {
+            databaseRef()?.child(ALBUM)?.child(album.id.toString())?.child("likeCounter")
+                ?.setValue(album.likeCounter?.minus(1))
             networkState.postValue(NetworkState.LOADED)
         }?.addOnFailureListener { err ->
             networkState.postValue(NetworkState.error(err.message.toString()))

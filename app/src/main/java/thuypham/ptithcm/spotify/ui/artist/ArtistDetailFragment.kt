@@ -14,7 +14,7 @@ import thuypham.ptithcm.spotify.data.EventTypeSong
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentArtistBinding
 import thuypham.ptithcm.spotify.di.Injection
-import thuypham.ptithcm.spotify.ui.album.AlbumFragment
+import thuypham.ptithcm.spotify.ui.album.AlbumDetailFragment
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
 import thuypham.ptithcm.spotify.ui.song.adapter.SongAdapter
 import thuypham.ptithcm.spotify.util.gone
@@ -26,7 +26,7 @@ import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 /**
  * A simple [Fragment] subclass.
  */
-class ArtistFragment : Fragment() {
+class ArtistDetailFragment : Fragment() {
 
     private val artistViewModel: ArtistViewModel by lazy {
         ViewModelProviders
@@ -96,10 +96,11 @@ class ArtistFragment : Fragment() {
         binding.swRefreshArtist.setOnRefreshListener { refresh() }
         binding.btnBackArtist.setOnClickListener { requireActivity().onBackPressed() }
         binding.albumLatestRelease.setOnClickListener { showAlbum(albumID) }
+        binding.btnLikeArtist.setOnClickListener { artistViewModel.followArtistOnClick(binding.btnLikeArtist) }
     }
 
     private fun showAlbum(albumID: String?) {
-        val albumFragment = AlbumFragment()
+        val albumFragment = AlbumDetailFragment()
         val arguments = Bundle()
         arguments.putString("albumID", albumID)
         albumFragment.arguments = arguments
@@ -147,13 +148,13 @@ class ArtistFragment : Fragment() {
                 Status.FAILED -> Toast
                     .makeText(
                         requireContext(),
-                        "Failed to add to favorite album!",
+                        "Unfollow artist",
                         Toast.LENGTH_LONG
                     ).show()
                 Status.SUCCESS -> Toast
                     .makeText(
                         requireContext(),
-                        "Add to favorite album successfully!",
+                        "Follow artist",
                         Toast.LENGTH_LONG
                     ).show()
                 Status.RUNNING -> {

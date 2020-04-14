@@ -65,13 +65,9 @@ class AlbumViewModel(
 
     fun onLikeAlbumClick(view: View) {
         view.isSelected = !view.isSelected
-        if (view.isSelected) {
-            if (album.value != null)
-                statusLikeAlbum = repository.addAlbumFavorite(album.value!!)
-        } else {
-            if (albumID.value != null)
-                statusUnLikeAlbum = repository.removeAlbumFavorite(albumID.value!!)
-        }
+        if (album.value != null)
+            if (view.isSelected) statusLikeAlbum = repository.addAlbumFavorite(album.value!!)
+            else statusUnLikeAlbum = repository.removeAlbumFavorite(album.value!!)
     }
 
     fun onPlayAllAlbumClick(view: View) {

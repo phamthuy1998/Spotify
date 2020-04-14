@@ -103,5 +103,7 @@
     <string name="track_list">TRACK LIST</string>
     <string name="logout">LOGOUT</string>
     <string name="popular">POPULAR</string>
+    <string name="random_music_playback">Random music playback</string>
+    <string name="shuffle">Shuffle</string>
 
 </resources>

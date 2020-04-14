@@ -41,4 +41,8 @@ object Injection {
         return MusicGenreViewModelFactory(MusicGenreRepositoryImpl())
     }
 
+    fun providePlaylistViewModelFactory(): ViewModelProvider.Factory {
+        return PlaylistViewModelFactory(PlaylistRepositoryImpl())
+    }
+
 }

@@ -166,6 +166,7 @@ class BrowseFragment : Fragment() {
         browserViewModel.album.observe(this, Observer {
             binding.album = it
         })
+
         browserViewModel.networkStateAlbum.observe(this, Observer {
             when (it.status) {
                 Status.FAILED -> {

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_albums.*
 import kotlinx.android.synthetic.main.fragment_artists.*
+import kotlinx.android.synthetic.main.list_empty.*
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.di.Injection
@@ -23,11 +24,11 @@ class FavoriteAlbumFragment : Fragment() {
 
     private lateinit var viewModel: YourMusicViewModel
     private val albumAdapter by lazy {
-        AlbumAdapter(this::itemAlbumClick)
+        AlbumAdapter(mutableListOf(), this::itemAlbumClick)
     }
 
     private fun itemAlbumClick(id: String?) {
-        val albumFragment = AlbumFragment()
+        val albumFragment = AlbumDetailFragment()
         val arguments = Bundle()
         arguments.putString("albumID", id)
         albumFragment.arguments = arguments
@@ -63,6 +64,15 @@ class FavoriteAlbumFragment : Fragment() {
             viewModel.getListAlbum()
             swRefreshAlbum.isRefreshing = false
         }
+        btnFind.setOnClickListener { showAlbumsFragment() }
+    }
+
+    private fun showAlbumsFragment() {
+        requireActivity().replaceFragment(
+            id = R.id.frmMain,
+            fragment = AllAlbumFragment(),
+            addToBackStack = true
+        )
     }
 
     private fun initRecyclerView() {

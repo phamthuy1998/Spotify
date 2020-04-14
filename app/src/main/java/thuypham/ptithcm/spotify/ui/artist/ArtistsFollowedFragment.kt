@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_artists.*
+import kotlinx.android.synthetic.main.list_empty.*
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.di.Injection
@@ -22,11 +23,11 @@ class ArtistsFollowedFragment : Fragment() {
 
     private lateinit var viewModel: YourMusicViewModel
     private val artistAdapter by lazy {
-        ArtistAdapter(this::itemArtistClick)
+        ArtistAdapter(mutableListOf(),this::itemArtistClick)
     }
 
     private fun itemArtistClick(id: String?) {
-        val artistFragment = ArtistFragment()
+        val artistFragment = ArtistDetailFragment()
         val arguments = Bundle()
         arguments.putString("artistID", id)
         artistFragment.arguments = arguments
@@ -56,14 +57,24 @@ class ArtistsFollowedFragment : Fragment() {
         viewModel.getListArtist()
         bindViewModel()
         initRecyclerView()
-        addEnvents()
+        addEvents()
     }
 
-    private fun addEnvents() {
+    private fun addEvents() {
         swRefreshArtist.setOnRefreshListener {
             viewModel.getListArtist()
             swRefreshArtist.isRefreshing = false
         }
+        btnFind.setOnClickListener {showArtistsFragment() }
+
+    }
+
+    private fun showArtistsFragment() {
+        requireActivity().replaceFragment(
+            id = R.id.frmMain,
+            fragment = ArtistsFragment(),
+            addToBackStack = true
+        )
     }
 
     private fun initRecyclerView() {
@@ -94,5 +105,4 @@ class ArtistsFollowedFragment : Fragment() {
             }
         })
     }
-
 }

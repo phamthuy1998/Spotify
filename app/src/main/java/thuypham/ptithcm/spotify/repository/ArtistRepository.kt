@@ -12,6 +12,7 @@ import thuypham.ptithcm.spotify.util.*
 interface ArtistRepository {
     fun getListSongOfArtist(artistID: String): ResultData<ArrayList<Song>>
     fun getListArtistFollowing(): ResultData<ArrayList<Artist>>
+    fun getAllArtist(): ResultData<ArrayList<Artist>>
     fun getLatestAlbum(artistID: String): ResultData<Album>
     fun getArtistInfoByID(artistID: String): ResultData<Artist>
     fun followArtist(artist: Artist): ResultData<Boolean>
@@ -70,6 +71,42 @@ class ArtistRepositoryImpl : ArtistRepository {
         val listSong = ArrayList<Artist>()
         var artist: Artist?
         val query = currentUser()?.uid?.let { databaseRef()?.child(FOLLOW_ARTISTS)?.child(it) }
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children) {
+                        artist = ds.getValue(Artist::class.java)
+                        artist?.let { listSong.add(it) }
+                    }
+                    if (listSong.size > 0) {
+                        listSong.reverse()
+                        responseListArtistFollow.value = listSong
+                        networkState.postValue(NetworkState.LOADED)
+                    } else
+                        networkState.postValue(NetworkState.error("List artist following are empty!"))
+                } else {
+                    networkState.postValue(NetworkState.error("List artist following are empty!"))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) =
+                networkState.postValue(NetworkState.error(databaseError.toException().toString()))
+        }
+        query?.addValueEventListener(valueEventListener)
+        return ResultData(
+            data = responseListArtistFollow,
+            networkState = networkState
+        )
+    }
+
+    override fun getAllArtist(): ResultData<ArrayList<Artist>> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseListArtistFollow = MutableLiveData<ArrayList<Artist>>()
+        networkState.postValue(NetworkState.LOADING)
+        val listSong = ArrayList<Artist>()
+        var artist: Artist?
+        val query = databaseRef()?.child(ARTIST)
 
         val valueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -179,8 +216,8 @@ class ArtistRepositoryImpl : ArtistRepository {
     }
 
     override fun updateFollowCounterOfArtist(artistID: String, followCounter: Int) {
-        databaseRef()?.child(ARTIST)?.child(artistID)?.child("followCounter")
-            ?.setValue(followCounter)
+            databaseRef()?.child(ARTIST)?.child(artistID)?.child("followCounter")
+                ?.setValue(followCounter)
     }
 
     override fun unFollowArtist(artistID: String): ResultData<Boolean> {

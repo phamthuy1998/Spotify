@@ -12,7 +12,7 @@
         android:layout_height="?actionBarSize">
 
         <ImageView
-            android:id="@+id/btnBackAllAlbum"
+            android:id="@+id/btnBackPlaylists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -24,12 +24,12 @@
             android:src="@drawable/ic_back_btn" />
 
         <EditText
-            android:id="@+id/edtSearchAlbum"
+            android:id="@+id/edtSearchPlaylist"
             style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/btnBackAllAlbum"
+            android:layout_toEndOf="@id/btnBackPlaylists"
             android:background="@android:color/transparent"
             android:hint="@string/search"
             android:importantForAutofill="no"
@@ -37,9 +37,14 @@
             android:maxLines="1" />
     </RelativeLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <TextView
         android:layout_width="match_parent"
-        android:id="@+id/swRefreshAllAlbum"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayLine" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swRefreshPlaylists"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -47,38 +52,36 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAllAlbum"
+                android:id="@+id/rvAllPlaylist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="23dp"
                 android:orientation="vertical"
+                android:paddingStart="@dimen/marginL"
+                android:paddingEnd="@dimen/marginL"
+                android:paddingBottom="@dimen/marginL"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_album" />
-
+                tools:listitem="@layout/item_playlist" />
 
             <include
-                android:id="@+id/llAlbumEmpty"
+                android:id="@+id/playlistEmpty"
                 layout="@layout/search_empty"
                 android:visibility="gone" />
 
             <include
-                android:id="@+id/llSearchAllAlbumNotFound"
+                android:id="@+id/llSearchPlaylistNotFound"
                 layout="@layout/search_empty"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_gravity="center|bottom"
                 android:visibility="gone"/>
 
-
             <ProgressBar
-                android:id="@+id/progressAllAlbum"
+                android:id="@+id/progressPlaylists"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
 
         </RelativeLayout>
 

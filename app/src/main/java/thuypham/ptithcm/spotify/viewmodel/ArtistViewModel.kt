@@ -12,9 +12,24 @@ class ArtistViewModel(
     private var requestArtist = MutableLiveData<ResultData<Artist>>()
     private var requestAlbumOfArtist = MutableLiveData<ResultData<Album>>()
     private var requestArtistFollowing = MutableLiveData<ResultData<ArrayList<Artist>>>()
+    private var requestAllArtist = MutableLiveData<ResultData<ArrayList<Artist>>>()
     var checkFollowArtist = MutableLiveData<Boolean>()
     var artistID = MutableLiveData<String>()
     var followCounter: Int? = -1
+
+    var listAllArtist: LiveData<ArrayList<Artist>> =
+        Transformations.switchMap(requestAllArtist) {
+            it.data
+        }
+
+    var statusListAllArtist: LiveData<NetworkState> =
+        Transformations.switchMap(requestAllArtist) {
+            it.networkState
+        }
+
+    fun getAllArtist(){
+        requestAllArtist.value  = repository.getAllArtist()
+    }
 
     val listSong: LiveData<ArrayList<Song>> =
         Transformations.switchMap(requestSongOfArtist) {
@@ -78,7 +93,7 @@ class ArtistViewModel(
             it.networkState
         }
 
-    fun getLatestAlbumOfArtist(artistID: String){
+    fun getLatestAlbumOfArtist(artistID: String) {
         requestAlbumOfArtist.value = repository.getLatestAlbum(artistID)
     }
 
@@ -86,10 +101,10 @@ class ArtistViewModel(
         requestArtistFollowing.value = repository.getListArtistFollowing()
     }
 
-    fun getArtistInfo(_albumID: String) {
-        requestArtist.value = repository.getArtistInfoByID(_albumID)
-        checkFollowArtist = repository.checkFollowArtist(_albumID)
-        this.artistID.value = _albumID
+    fun getArtistInfo(_artistID: String) {
+        requestArtist.value = repository.getArtistInfoByID(_artistID)
+        checkFollowArtist = repository.checkFollowArtist(_artistID)
+        this.artistID.value = _artistID
     }
 
     fun followArtistOnClick(view: View) {
@@ -100,7 +115,7 @@ class ArtistViewModel(
 
                 artistInfo.value?.followCounter?.plus(1)?.let {
                     artistInfo.value?.id?.let { it1 ->
-                        updateCounter(it1, it)
+                        repository.updateFollowCounterOfArtist(it1, it)
                     }
                 }
             }
@@ -108,14 +123,10 @@ class ArtistViewModel(
             if (artistID.value != null) {
                 requestUnFollowArtist.value = repository.unFollowArtist(artistID.value!!)
                 artistInfo.value?.followCounter?.plus(1)?.let {
-                    updateCounter(artistID.value!!, it)
+                    repository.updateFollowCounterOfArtist(artistID.value!!, it)
                 }
             }
         }
-    }
-
-    private fun updateCounter(artistID: String, followCounter: Int) {
-        repository.updateFollowCounterOfArtist(artistID, followCounter)
     }
 
     fun onShareArtistClick(view: View) {

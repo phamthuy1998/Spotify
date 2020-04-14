@@ -1,9 +1,7 @@
 package thuypham.ptithcm.spotify.data
 
-import com.google.firebase.database.Exclude
-import com.google.firebase.database.IgnoreExtraProperties
+import thuypham.ptithcm.spotify.base.DynamicSearchAdapter
 
-@IgnoreExtraProperties
 data class Album(
     var id: String? = null,
     var albumName: String? = null,
@@ -11,21 +9,14 @@ data class Album(
     var artistName: String? = null,
     var imageURL: String? = null,
     var description: String? = null,
-    var songCounter: Int? = null
-) {
+    var songCounter: Int? = null,
+    var likeCounter: Int? = null,
+    var viewCounter: Int? = null
+) : DynamicSearchAdapter.Searchable {
+    override fun getSearchCriteria(): String {
+        return albumName.toString()
+    }
+
     fun artistAppendSongCounter() =
         if (songCounter != 1) "$artistName - $songCounter songs" else "$artistName - $songCounter song"
-
-    @Exclude
-    fun toMap(): Map<String, Any?> {
-        return mapOf(
-            "id" to id,
-            "albumName" to albumName,
-            "artistID" to artistID,
-            "artistName" to artistName,
-            "imageURL" to imageURL,
-            "songCounter" to songCounter,
-            "description" to description
-        )
-    }
 }
