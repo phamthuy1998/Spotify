@@ -16,6 +16,7 @@ class SongPopupMenu constructor(context: Context, attrs: AttributeSet) :
 
     init {
         setImageResource(R.drawable.ic_more)
+        isClickable = true
         setOnClickListener {
             val popupMenu = PopupMenu(context, this)
             popupMenu.setOnMenuItemClickListener {

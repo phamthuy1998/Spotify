@@ -83,7 +83,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_flexible_space"
                     android:layout_width="match_parent"

@@ -1,16 +1,19 @@
 package thuypham.ptithcm.spotify.data
+
 import android.content.Context
 import android.os.Parcelable
-import com.google.firebase.database.Exclude
-import com.google.firebase.database.IgnoreExtraProperties
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.base.DynamicSearchAdapter
 import kotlin.math.floor
 
-@IgnoreExtraProperties
+@Parcelize
+@Entity
 data class Song(
-    var id: String? = null,
+    @PrimaryKey
+    var id: String = "",
     var songName: String? = null,
     var fileName: String? = null,
     var imageURL: String? = null,
@@ -28,9 +31,10 @@ data class Song(
     var countryName: String? = null,
     var countryID: String? = null,
     var playListId: String? = null,
+    var isPlaying: Boolean? = false,
     var time: Int? = null,
-    var isLike: Boolean?=null
-) : DynamicSearchAdapter.Searchable {
+    var currentPosition: Int? = null
+) :Parcelable, DynamicSearchAdapter.Searchable {
 
     override fun getSearchCriteria(): String {
         return songName.toString()
@@ -52,38 +56,12 @@ data class Song(
             else context.getString(R.string.duration_format).format(minutes, remainingSeconds)
         }
     }
-
-    @Exclude
-    fun toMap(): Map<String, Any?> {
-        return mapOf(
-            "id" to id,
-            "songName" to songName,
-            "fileName" to fileName,
-            "imageURL" to imageURL,
-            "description" to description,
-            "albumID" to albumID,
-            "artistID" to artistID,
-            "artistName" to artistName,
-            "albumName" to albumName,
-            "lyric" to lyric,
-            "dayRelease" to dayRelease,
-            "typeID" to typeID,
-            "typeName" to typeName,
-            "description" to description,
-            "likeCounter" to likeCounter,
-            "viewsCounter" to viewsCounter,
-            "countryName" to countryName,
-            "countryID" to countryID,
-            "playListId" to playListId,
-            "time" to time,
-            "isLike" to isLike
-        )
-    }
 }
+
 @Parcelize
 data class Country(
     var id: String? = null,
     var countryName: String? = null,
     var countryImage: String? = null,
     var backgroundURL: String? = null
-): Parcelable
+) : Parcelable

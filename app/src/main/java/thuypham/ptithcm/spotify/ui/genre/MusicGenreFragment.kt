@@ -12,15 +12,13 @@ import androidx.lifecycle.ViewModelProviders
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.EventTypeSong
 import thuypham.ptithcm.spotify.data.MusicGenre
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentMusicGenreBinding
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.country.adapter.SongCountryAdapter
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
-import thuypham.ptithcm.spotify.util.MUSIC_GENRE
-import thuypham.ptithcm.spotify.util.gone
-import thuypham.ptithcm.spotify.util.replaceFragment
-import thuypham.ptithcm.spotify.util.show
+import thuypham.ptithcm.spotify.util.*
 import thuypham.ptithcm.spotify.viewmodel.MusicGenreViewModel
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 
@@ -40,13 +38,17 @@ class MusicGenreFragment : Fragment() {
         )
     }
 
-    private fun songEvents(songId: String?, type: EventTypeSong) {
+    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
-                nowPlayingViewModel.songID.value = songId
+                val nowPlayingFragment = NowPlayingFragment()
+                val arguments = Bundle()
+                arguments.putParcelable(SONG, song)
+                arguments.putInt(POSITION, position)
+                nowPlayingFragment.arguments = arguments
                 activity.replaceFragment(
                     id = R.id.frmMain,
-                    fragment = NowPlayingFragment(),
+                    fragment = nowPlayingFragment,
                     tag = "NowPlaying",
                     addToBackStack = true
                 )
@@ -65,7 +67,7 @@ class MusicGenreFragment : Fragment() {
             ViewModelProviders.of(this, Injection.provideMusicGenreViewModelFactory())
                 .get(MusicGenreViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
     }
 

@@ -42,7 +42,7 @@ class AllAlbumFragment : Fragment() {
             .of(this, Injection.provideAlbumViewModelFactory())
             .get(AlbumViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
 
     }

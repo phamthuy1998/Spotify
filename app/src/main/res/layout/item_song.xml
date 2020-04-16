@@ -39,11 +39,11 @@
             tools:text="1" />
 
         <TextView
-            android:layout_below="@id/tvLine"
             android:id="@+id/tvSongName"
             style="@style/textNameSong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvLine"
             android:layout_alignTop="@id/tvPosition"
             android:layout_marginStart="@dimen/marginM"
             android:layout_marginTop="14dp"
@@ -68,17 +68,14 @@
             android:text="@{song.artistName}"
             tools:text="Artist's name" />
 
-
-        <ImageView
-            android:id="@+id/btnSongShowMore"
+        <thuypham.ptithcm.spotify.ui.song.widget.SongPopupMenu
+            android:id="@+id/btnShowMoreSong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:src="@drawable/ic_more"
-            tools:ignore="ContentDescription" />
-
+            android:src="@drawable/ic_more" />
     </RelativeLayout>
 </layout>

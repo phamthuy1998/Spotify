@@ -11,12 +11,15 @@ import androidx.lifecycle.ViewModelProviders
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.EventTypeSong
 import thuypham.ptithcm.spotify.data.Playlist
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentPlaylistDetailBinding
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.country.adapter.SongCountryAdapter
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
 import thuypham.ptithcm.spotify.util.PLAYLIST
+import thuypham.ptithcm.spotify.util.POSITION
+import thuypham.ptithcm.spotify.util.SONG
 import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 import thuypham.ptithcm.spotify.viewmodel.PlaylistViewModel
@@ -36,13 +39,17 @@ class PlaylistDetailFragment : Fragment() {
         )
     }
 
-    private fun songEvents(songId: String?, type: EventTypeSong) {
+    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
-                nowPlayingViewModel.songID.value = songId
+                val nowPlayingFragment = NowPlayingFragment()
+                val arguments = Bundle()
+                arguments.putParcelable(SONG, song)
+                arguments.putInt(POSITION, position)
+                nowPlayingFragment.arguments = arguments
                 activity.replaceFragment(
                     id = R.id.frmMain,
-                    fragment = NowPlayingFragment(),
+                    fragment = nowPlayingFragment,
                     tag = "NowPlaying",
                     addToBackStack = true
                 )
@@ -59,7 +66,7 @@ class PlaylistDetailFragment : Fragment() {
             .of(this, Injection.providePlaylistViewModelFactory())
             .get(PlaylistViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
     }
 

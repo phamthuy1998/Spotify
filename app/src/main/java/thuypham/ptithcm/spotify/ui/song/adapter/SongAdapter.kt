@@ -10,7 +10,7 @@ import thuypham.ptithcm.spotify.databinding.ItemSongBinding
 
 class SongAdapter(
     private var listSong: MutableList<Song>? = arrayListOf(),
-    private val songEvents: (songId: String?, type: EventTypeSong) -> Unit
+    private val songEvents: (song: Song?, position: Int, type: EventTypeSong) -> Unit
 ) : DynamicSearchAdapter<Song>(listSong) {
 
     fun addDataListSong(arr: MutableList<Song>) {
@@ -54,7 +54,7 @@ class SongAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        listSong?.get(position)?.let { (holder as SongViewHolder).bind(it,position) }
+        listSong?.get(position)?.let { (holder as SongViewHolder).bind(it, position) }
     }
 
     inner class SongViewHolder(
@@ -63,15 +63,15 @@ class SongAdapter(
         fun bind(item: Song, _position: Int) {
             binding.apply {
                 song = item
-                position = (_position+1).toString()
+                position = (_position + 1).toString()
                 executePendingBindings()
                 itemSongAlbum.setOnClickListener {
-                    songEvents(item.id, EventTypeSong.ITEM_CLICK)
+                    songEvents(item , _position,EventTypeSong.ITEM_CLICK)
                 }
-                btnSongShowMore.setOnClickListener {
-                    listSong
-                    songEvents(item.id, EventTypeSong.SHOW_MORE)
-                }
+//                btnShowMoreSong.setOnClickListener {
+//                    listSong
+//                    songEvents(item.id, EventTypeSong.SHOW_MORE)
+//                }
             }
         }
     }

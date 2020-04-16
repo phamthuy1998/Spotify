@@ -12,11 +12,14 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_album.*
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.EventTypeSong
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentAlbumBinding
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
 import thuypham.ptithcm.spotify.ui.song.adapter.SongAdapter
+import thuypham.ptithcm.spotify.util.POSITION
+import thuypham.ptithcm.spotify.util.SONG
 import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.viewmodel.AlbumViewModel
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
@@ -32,13 +35,17 @@ class AlbumDetailFragment : Fragment() {
         )
     }
 
-    private fun songEvents(songId: String?, type: EventTypeSong) {
+    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
-                nowPlayingViewModel.songID.value = songId
+                val nowPlayingFragment = NowPlayingFragment()
+                val arguments = Bundle()
+                arguments.putParcelable(SONG, song)
+                arguments.putInt(POSITION, position)
+                nowPlayingFragment.arguments = arguments
                 activity.replaceFragment(
                     id = R.id.frmMain,
-                    fragment = NowPlayingFragment(),
+                    fragment = nowPlayingFragment,
                     tag = "NowPlaying",
                     addToBackStack = true
                 )
@@ -55,7 +62,7 @@ class AlbumDetailFragment : Fragment() {
             .of(this, Injection.provideAlbumViewModelFactory())
             .get(AlbumViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
     }
 

@@ -1,5 +1,6 @@
 package thuypham.ptithcm.spotify.ui.artist
 
+import android.app.Application
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -48,7 +49,7 @@ class ArtistsFragment : Fragment() {
             .of(this, Injection.provideArtistViewModelFactory())
             .get(ArtistViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
     }
 

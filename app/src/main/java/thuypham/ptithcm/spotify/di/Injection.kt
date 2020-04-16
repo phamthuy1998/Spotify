@@ -1,6 +1,8 @@
 package thuypham.ptithcm.spotify.di
 
+import android.app.Application
 import androidx.lifecycle.ViewModelProvider
+import thuypham.ptithcm.spotify.database.SongDbRepository
 import thuypham.ptithcm.spotify.repository.*
 import thuypham.ptithcm.spotify.viewmodel.*
 
@@ -21,8 +23,8 @@ object Injection {
         return BrowserViewModelFactory(BrowserRepositoryImpl())
     }
 
-    fun provideNowPlayingViewModelFactory(): ViewModelProvider.Factory {
-        return NowPlayingViewModelFactory(SongRepositoryImpl())
+    fun provideNowPlayingViewModelFactory(application: Application): ViewModelProvider.Factory {
+        return NowPlayingViewModelFactory(SongRepositoryImpl(), SongDbRepository(application) )
     }
 
     fun provideYourMusicViewModelFactory(): ViewModelProvider.Factory {
@@ -43,6 +45,10 @@ object Injection {
 
     fun providePlaylistViewModelFactory(): ViewModelProvider.Factory {
         return PlaylistViewModelFactory(PlaylistRepositoryImpl())
+    }
+
+    fun provideSongViewModelFactory(): ViewModelProvider.Factory {
+        return SongViewModelFactory(SongsRepositoryImpl())
     }
 
 }

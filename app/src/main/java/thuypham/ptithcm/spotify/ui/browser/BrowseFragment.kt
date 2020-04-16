@@ -59,7 +59,7 @@ class BrowseFragment : Fragment() {
             .of(requireActivity(), Injection.provideBrowserViewModelFactory())
             .get(BrowserViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
             .get(NowPlayingViewModel::class.java)
     }
 

@@ -1,14 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.song.BottomNowPlayingFragment">
+<layout>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="song"
+            type="thuypham.ptithcm.spotify.data.Song" />
+
+        <variable
+            name="viewModel"
+            type="thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_song_playing"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivSongPlaying"
+            imageInCircle="@{song.imageURL.toString()}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginM"
+            android:layout_marginBottom="@dimen/marginM"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.133"
+            tools:src="@drawable/trucxinh" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glCenterH"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/tvNameSongPlaying"
+            style="@style/txtSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/marginM"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{song.songName.toString()}"
+            android:textColor="@color/Black"
+            app:layout_constraintBottom_toTopOf="@id/glCenterH"
+            app:layout_constraintEnd_toStartOf="@id/btnBotPlaySong"
+            app:layout_constraintStart_toEndOf="@id/ivSongPlaying"
+            tools:layout_marginStart="@dimen/marginM"
+            tools:text="@string/tvSongName" />
+
+        <TextView
+            android:id="@+id/tvArtistNamePlaying"
+            style="@style/txtSmall1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/marginM"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{song.artistName.toString()}"
+            app:layout_constraintEnd_toStartOf="@id/btnBotPlaySong"
+            app:layout_constraintStart_toEndOf="@id/ivSongPlaying"
+            app:layout_constraintTop_toBottomOf="@id/glCenterH"
+            tools:layout_marginStart="@dimen/marginM"
+            tools:text="@string/artist" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBotPlaySong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/paddingM"
+            android:src="@drawable/btn_bot_play_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

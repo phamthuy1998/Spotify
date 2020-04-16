@@ -10,7 +10,7 @@ import thuypham.ptithcm.spotify.databinding.ItemTopSongBinding
 
 class SongCountryAdapter(
     private var listSong: MutableList<Song>? = arrayListOf(),
-    private val songEvents: (songId: String?, type: EventTypeSong) -> Unit
+    private val songEvents: (song: Song?,position: Int, type: EventTypeSong) -> Unit
 ) : DynamicSearchAdapter<Song>(listSong) {
 
     fun addDataListSong(arr: MutableList<Song>) {
@@ -66,7 +66,7 @@ class SongCountryAdapter(
                 position = (_position + 1).toString()
                 executePendingBindings()
                 itemSongAlbum.setOnClickListener {
-                    songEvents(item.id, EventTypeSong.ITEM_CLICK)
+                    songEvents(item,_position, EventTypeSong.ITEM_CLICK)
                 }
 //                btnSongShowMore.setOnClickListener {
 //                    listSong

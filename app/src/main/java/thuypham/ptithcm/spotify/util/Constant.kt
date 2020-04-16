@@ -1,7 +1,6 @@
 package thuypham.ptithcm.spotify.util
 
 
-
 const val BASE_URL = "http://string-api.vinova.sg/api/"
 
 const val CURRENT_PER_PAGE = 20
@@ -19,6 +18,15 @@ const val ACCESS_TOKEN = "ACCESS_TOKEN"
 const val USER_ID = "USER_ID"
 const val DATABASE_NAME = "SPOTIFY"
 
+const val CHANEL_ID = "chanelNotification"
+const val ACT_PREV = "previous"
+const val ACT_NEXT = "next"
+const val ACT_EXIT = "exit"
+const val ACT_PLAY = "play"
+const val NOTIFICATION = "notification"
+const val NOTIFICATION_ACT = "notification_action"
+const val POSITION = "position"
+
 // Error auth
 const val ERR_EMAIL_VERIFY = "Email has not been verify!"
 const val ERR_EMAIL_NOT_Exist = "Email does't exist!"
@@ -28,6 +36,7 @@ const val ERR_WEAK_PASSWORD =
 const val ERR_EMAIL_INVALID = "Email invalidate!"
 const val ERR_EMAIL_EXIST = "Email already exists!"
 
+//Database
 const val USER = "User"
 const val FOLLOW_ARTISTS = "FollowArtists"
 const val ADVERTISE = "Advertise"
@@ -37,7 +46,7 @@ const val TOP_HIT = "TopHit"
 const val COUNTRY = "Country"
 const val ALBUM = "Album"
 const val ARTIST_ID = "artistID"
-const val FAVORITE_ALBUM= "FavoriteAlbum"
+const val FAVORITE_ALBUM = "FavoriteAlbum"
 const val PLAYLIST = "PlayList"
 const val FAVORITE_PLAYLIST = "FavoritePlaylist"
 const val COMMENT = "Comment"

@@ -39,6 +39,14 @@ fun bindImageFromUrlAvatar(view: ImageView, imageUrl: String?) {
             .error(R.drawable.ic_account)
             .into(view)
 }
+@BindingAdapter("imageInCircle")
+fun bindImageBotPlaying(view: ImageView, imageUrl: String?) {
+    if (!imageUrl.isNullOrEmpty())
+        Glide.with(view.context)
+            .load(imageUrl)
+            .error(R.color.colorOrange)
+            .into(view)
+}
 
 @BindingAdapter("imageRoundedFromUrl")
 fun bindImageRoundedFromUrl(view: ImageView, imageUrl: String?) {
@@ -54,4 +62,9 @@ fun bindImageRoundedFromUrl(view: ImageView, imageUrl: String?) {
 @BindingAdapter("imageState")
 fun setButtonState(view: ImageView, res: Int) {
     view.setImageResource(res)
+}
+@BindingAdapter("imagePlayState")
+fun setImageBotPlay(view: ImageView, isPlaying: Boolean) {
+    if(isPlaying) view.setImageResource(R.drawable.ic_bot_pause)
+    else  view.setImageResource(R.drawable.ic_bot_play)
 }

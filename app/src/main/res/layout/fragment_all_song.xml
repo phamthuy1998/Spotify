@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:id="@+id/btnBackAllSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/marginM"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/button_back"
+            android:padding="@dimen/paddingDefault"
+            android:src="@drawable/ic_back_btn" />
+
+        <EditText
+            android:id="@+id/edtSearchSong"
+            style="@style/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/btnBackAllSong"
+            android:background="@android:color/transparent"
+            android:hint="@string/search"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1" />
+    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swRefreshSongs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAllSong"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/marginL"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/marginL"
+                android:paddingEnd="@dimen/marginL"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_album" />
+
+            <include
+                android:id="@+id/llSongEmpty"
+                layout="@layout/search_empty"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/llSearchAllSongNotFound"
+                layout="@layout/search_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressAllSong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

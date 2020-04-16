@@ -12,15 +12,13 @@ import androidx.lifecycle.ViewModelProviders
 import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.Country
 import thuypham.ptithcm.spotify.data.EventTypeSong
+import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentCountryBinding
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.country.adapter.SongCountryAdapter
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
-import thuypham.ptithcm.spotify.util.COUNTRY
-import thuypham.ptithcm.spotify.util.gone
-import thuypham.ptithcm.spotify.util.replaceFragment
-import thuypham.ptithcm.spotify.util.show
+import thuypham.ptithcm.spotify.util.*
 import thuypham.ptithcm.spotify.viewmodel.CountryViewModel
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 
@@ -38,13 +36,22 @@ class CountryFragment : Fragment() {
     }
     private var country: Country? = null
 
-    private fun songEvents(songId: String?, type: EventTypeSong) {
+    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
-                nowPlayingViewModel.songID.value = songId
+                // Delete all song before insert list song into database
+                // insert list song to play song when the current song is end
+                nowPlayingViewModel.deleteAllSong()
+                nowPlayingViewModel.insertSongs(countryViewModel.listSong.value ?: arrayListOf())
+                nowPlayingViewModel.getAllSongInDb()
+                val nowPlayingFragment = NowPlayingFragment()
+                val arguments = Bundle()
+                arguments.putParcelable(SONG, song)
+                arguments.putInt(POSITION, position)
+                nowPlayingFragment.arguments = arguments
                 activity.replaceFragment(
                     id = R.id.frmMain,
-                    fragment = NowPlayingFragment(),
+                    fragment = nowPlayingFragment,
                     tag = "NowPlaying",
                     addToBackStack = true
                 )
@@ -61,7 +68,10 @@ class CountryFragment : Fragment() {
         countryViewModel = ViewModelProviders.of(this, Injection.provideCountryViewModelFactory())
             .get(CountryViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory())
+            .of(
+                requireActivity(),
+                Injection.provideNowPlayingViewModelFactory(requireActivity().application)
+            )
             .get(NowPlayingViewModel::class.java)
     }
 

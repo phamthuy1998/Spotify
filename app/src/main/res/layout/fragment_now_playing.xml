@@ -44,7 +44,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@id/glCenterH"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/mockup_ipad_air" />
+            android:src="@drawable/mockup_ipad_air" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnDismissSong"
@@ -145,14 +145,12 @@
             app:layout_constraintEnd_toStartOf="@id/tvSongNameDetail"
             app:layout_constraintTop_toTopOf="@id/tvSongNameDetail" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <thuypham.ptithcm.spotify.ui.song.widget.SongPopupMenu
             android:id="@+id/btnMoreInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:padding="5dp"
-            android:src="@drawable/ic_more"
             app:layout_constraintBottom_toBottomOf="@id/tvArtist"
             app:layout_constraintStart_toEndOf="@id/tvSongNameDetail"
             app:layout_constraintTop_toTopOf="@id/tvSongNameDetail" />

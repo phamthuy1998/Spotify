@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.os.PowerManager
 import android.widget.Toast
 import thuypham.ptithcm.spotify.data.Song
+import java.util.*
 
 
 class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -24,52 +25,18 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
         MusicBinder()
     }
 
-    private lateinit var listMusic: ArrayList<Song>
-    private lateinit var song: Song
+    private var listMusic: List<Song> = arrayListOf()
+    private var song: Song? = null
 
     private var mediaPlayer: MediaPlayer? = null
-    private var uri: String = ""
 
-    private var position: Int = 0
+    private var songPosition: Int = 0
+    private var checkSongIsPlaying: Boolean = false
 
-//    //2 , if(exist) --> skip on create
-//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        uri = intent?.getStringExtra("uriSong") ?: ""
-//        song.fileName?.let { playAudio() }
-//        return START_STICKY
-//    }
-
-    fun playList() {
-        song = listMusic[position]
-        try {
-            mediaPlayer?.setDataSource(this, Uri.parse(song.fileName))
-            mediaPlayer?.prepareAsync()
-        } catch (e: Exception) {
-            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    fun playSong(_song: Song) {
-        try {
-            if (mediaPlayer?.isPlaying == true) {
-                mediaPlayer?.stop()
-                mediaPlayer?.reset()
-            }
-            mediaPlayer?.setDataSource(this, Uri.parse(_song.fileName))
-            mediaPlayer?.prepareAsync()
-        } catch (e: Exception) {
-            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun resetSong() {
-        mediaPlayer?.reset()
-    }
-
-
-    fun setList(listSong: ArrayList<Song>) {
-        listMusic = listSong
-    }
+    private var isShuffle = false
+    private var isPlayingComplete = false
+    private var isRepeat = false
+    private val rand: Random? = null
 
     // 1
     override fun onCreate() {
@@ -77,8 +44,141 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
         initMediaPlayer()
     }
 
+    //2 , if(exist) --> skip on create
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_STICKY
+    }
+
+    private fun getSongInList() {
+        // If list the current song is not the last song in list song
+        when {
+            isShuffle -> { /*Do nothing*/}
+            songPosition < listMusic.size -> {
+                song = listMusic[songPosition]
+            }
+            else -> {
+                songPosition = 0
+                /*   reset position song to begin song in list song,
+                   if list is empty -> the song will play on repeat mode
+               */
+                song = if (listMusic.isNotEmpty()) listMusic[0] else song
+            }
+        }
+        isPlayingComplete = true
+        playSong()
+    }
+
+    fun playSong() {
+        try {
+            // The current song is not the previous song --> init media player
+            // If this song is current song playing --> do nothing
+            if (!checkSongIsPlaying) {
+                if (mediaPlayer?.isPlaying == true) {
+                    stop()
+                    resetSong()
+                }
+                mediaPlayer?.setDataSource(this, Uri.parse(song?.fileName))
+                mediaPlayer?.prepareAsync()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun playNext() {
+        if (isShuffle) { // Check if shuffle --> random a new position in list song
+            // Random can be duplicated, TODO()--> use stack to random new position
+            var newSongPosition: Int = songPosition
+            while (newSongPosition == songPosition) {
+                newSongPosition = rand?.nextInt(listMusic.size) ?: 0
+            }
+            songPosition = newSongPosition
+        } else if (!isRepeat) {
+            songPosition++
+            if (songPosition >= listMusic.size) songPosition = 0
+        }
+        getSongInList()
+    }
+
+    fun playPrev() {
+        if (isShuffle) { // Check if shuffle --> random a new position in list song
+            // Random can be duplicated, TODO()--> use stack to random new position
+            var newSongPosition: Int = songPosition
+            while (newSongPosition == songPosition) {
+                newSongPosition = rand?.nextInt(listMusic.size) ?: 0
+            }
+            songPosition = newSongPosition
+        } else if (!isRepeat) {
+            songPosition--
+            if (songPosition < 0) songPosition = listMusic.size - 1
+        }
+        getSongInList()
+    }
+
+    fun seek(position: Int) {
+        mediaPlayer?.seekTo(position)
+    }
+
+    fun play() {
+        mediaPlayer?.start()
+    }
+
+    fun pause() {
+        mediaPlayer?.pause()
+    }
+
+    fun stop() {
+        mediaPlayer?.stop()
+    }
+
+    private fun resetSong() {
+        mediaPlayer?.reset()
+    }
+
+    fun getPosition(): Int? {
+        return mediaPlayer?.currentPosition
+    }
+
+    fun getDuration(): Int? {
+        return mediaPlayer?.duration
+    }
+
+    fun isPlaying(): Boolean? {
+        return mediaPlayer?.isPlaying
+    }
+
+    fun pausePlayer() {
+        mediaPlayer?.pause()
+    }
+
+    fun releaseSong() {
+        mediaPlayer?.release()
+    }
+
+    fun setList(listSong: List<Song>?) {
+        listMusic = listSong ?: arrayListOf()
+    }
+
+    fun setSong(_song: Song, position: Int) {
+        checkSongIsPlaying = _song.id == song?.id
+        songPosition = position
+        song = _song
+    }
+
+    fun setShuffle() {
+        isShuffle = !isShuffle
+    }
+
+    fun setRepeat() {
+        isRepeat = !isRepeat
+    }
+
+    fun isRepeat() = isRepeat
+
+    fun isShuffle() = isShuffle
+
     /*
-    * WAKE LOCK sẽ cho phép tiếp tục phát nhạc khi thiết bị ở trong chế độ idle và chúng ta thiết lập kiểu stream thành music.
+    * WAKE LOCK allow to continue playing the song when device in Idle mode and we can set up stream into music
     * */
     private fun initMediaPlayer() {
         mediaPlayer = MediaPlayer()
@@ -87,30 +187,31 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
             PowerManager.PARTIAL_WAKE_LOCK
         )
         mediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        mediaPlayer?.setOnPreparedListener(this);
-        mediaPlayer?.setOnCompletionListener(this);
-        mediaPlayer?.setOnErrorListener(this);
+        mediaPlayer?.setOnPreparedListener(this)
+        mediaPlayer?.setOnCompletionListener(this)
+        mediaPlayer?.setOnErrorListener(this)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
         if (mediaPlayer != null) {
             try {
-                mediaPlayer?.stop()
-                mediaPlayer?.reset()
-                mediaPlayer?.release()
+                stop()
+                resetSong()
+                releaseSong()
                 mediaPlayer = null
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        stopForeground(true)
     }
 
-    // Giải phóng service khi người dùng thoát khỏi ứng dụng
+    // Release data when user exit app
     override fun onUnbind(intent: Intent?): Boolean {
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
+        stop()
+        resetSong()
+        releaseSong()
         return false
     }
 
@@ -118,16 +219,30 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
         return musicBind
     }
 
+    fun getCurrentPosition() = mediaPlayer?.currentPosition?.div(1000)
+
+    fun isPlayingSongComplete() = isPlayingComplete
+
+    fun getSongIsPlaying() = song
+
     override fun onPrepared(mp: MediaPlayer?) {
         mediaPlayer?.start()
+        showNotification()
+    }
+
+    private fun showNotification() {
+
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        resetSong()
+        return false;
     }
 
+    // Called when the song end
     override fun onCompletion(mp: MediaPlayer?) {
-
+        mp?.reset();
+        playNext();
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
