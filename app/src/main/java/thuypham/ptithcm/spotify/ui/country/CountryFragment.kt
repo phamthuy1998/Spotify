@@ -62,7 +62,6 @@ class CountryFragment : Fragment() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         countryViewModel = ViewModelProviders.of(this, Injection.provideCountryViewModelFactory())

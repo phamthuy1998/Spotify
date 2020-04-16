@@ -8,6 +8,9 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
 import android.widget.Toast
 import thuypham.ptithcm.spotify.data.Song
 import java.util.*
@@ -44,7 +47,7 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
         initMediaPlayer()
     }
 
-    //2 , if(exist) --> skip on create
+    //2
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
     }
@@ -52,7 +55,8 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
     private fun getSongInList() {
         // If list the current song is not the last song in list song
         when {
-            isShuffle -> { /*Do nothing*/}
+            isShuffle -> { /*Do nothing*/
+            }
             songPosition < listMusic.size -> {
                 song = listMusic[songPosition]
             }
@@ -225,8 +229,53 @@ class SoundService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnEr
 
     fun getSongIsPlaying() = song
 
+    // Async thread to update progress bar every second
+    private val mProgressRunner: Runnable = object : Runnable {
+        override fun run() {
+            if (mSeekBar != null) {
+                mSeekBar?.progress = mediaPlayer?.currentPosition ?: 0
+                if (mediaPlayer?.isPlaying == true) {
+                    mSeekBar?.postDelayed(this, mInterval.toLong())
+                }
+            }
+        }
+    }
+
+    private var mSeekBar: SeekBar? = null
+    private var mCurrentPosition: TextView? = null
+    private var mTotalDuration: TextView? = null
+    private val mInterval = 1000
+    fun setUIControls(
+        seekBar: SeekBar,
+        currentPosition: TextView,
+        totalDuration: TextView
+    ) {
+        mSeekBar = seekBar
+        mCurrentPosition = currentPosition
+        mTotalDuration = totalDuration
+        mSeekBar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seekBar: SeekBar,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                if (fromUser) { // Change current position of the song playback
+                    mediaPlayer?.seekTo(progress)
+                }
+                // Update our textView to display the correct number of second in format 0:00
+                mCurrentPosition?.text = Song.timestampIntToMSS(progress/1000)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
+    }
+
     override fun onPrepared(mp: MediaPlayer?) {
         mediaPlayer?.start()
+        val duration = mp!!.duration
+        mSeekBar?.max = duration
+        mSeekBar?.postDelayed(mProgressRunner, mInterval.toLong())
         showNotification()
     }
 

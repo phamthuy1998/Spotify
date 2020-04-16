@@ -4,13 +4,10 @@ package thuypham.ptithcm.spotify.ui.song
 import android.app.NotificationManager
 import android.content.*
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,7 +22,6 @@ import thuypham.ptithcm.spotify.notification.MusicNotification
 import thuypham.ptithcm.spotify.service.SoundService
 import thuypham.ptithcm.spotify.util.*
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
-import java.util.*
 
 
 class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
@@ -35,10 +31,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
     private var position: Int? = 0
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
 
-//    private val musicController: MusicController by lazy {
-//        MusicController(this.context)
-//    }
-
     private var notificationManager: NotificationManager? = null
     private var musicService: SoundService? = SoundService()
 
@@ -46,6 +38,7 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
     private var checkInitService = false
     // Check  user is changing the status of seek bar?
     private var checkChangeSeekBar = false
+
     //connect to the service
     private val musicConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -58,8 +51,8 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
             }
             musicService?.setList(nowPlayingViewModel.listSongDb.value)
             musicService?.playSong()
+            musicService?.setUIControls(seekBarSong, tvTimePlay, tvTotalTime)
             updateUI()
-            handlerSeekBar()
             notificationPlay()
             checkInitService = true
         }
@@ -67,54 +60,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         override fun onServiceDisconnected(name: ComponentName) {
             checkInitService = false
         }
-    }
-
-    private lateinit var mHandler: Handler
-
-    private lateinit var mHandlerThread: HandlerThread
-    private var timer = Timer()
-    private fun handlerSeekBar() {
-//        mHandlerThread = HandlerThread("HandlerThread");
-//        mHandlerThread.start();
-//        mHandler = Handler(mHandlerThread.getLooper());
-//        // update SeekBar on background thread
-//        mHandler.postDelayed(object : Runnable {
-//            override fun run() {
-//                musicService?.getCurrentPosition()?.let {
-//                    if (!checkChangeSeekBar) {
-//                        seekBarSong?.progress = it
-//                        tvTimePlay?.text = Song.timestampIntToMSS(requireContext(), it)
-//                    }
-//                }
-//                if (musicService?.isPlayingSongComplete() == true) {
-//                    song = musicService?.getSongIsPlaying()
-//                    updateUI()
-//                    nowPlayingViewModel.songPlaying.value = song
-//                }
-//            }
-//        }, 100)
-
-        timer.cancel()
-        timer = Timer()
-        var currentTime = 0
-        timer.schedule(object : TimerTask() {
-            override fun run() {
-                musicService?.getCurrentPosition()?.let {
-                    currentTime = it
-                }
-                if (musicService?.isPlayingSongComplete() == true) {
-                    song = musicService?.getSongIsPlaying()
-                    nowPlayingViewModel.songPlaying.value = song
-                }
-                activity?.runOnUiThread {
-                    if (!checkChangeSeekBar) {
-                        seekBarSong?.progress = currentTime
-                        tvTimePlay?.text = Song.timestampIntToMSS(requireContext(), currentTime)
-                    }
-                    updateUI()
-                }
-            }
-        }, 1000)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -209,18 +154,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         addEvents()
     }
 
-//    private fun initMusicController() {
-//        musicController.setPrevNextListeners({
-//            // Play next
-//            playNext()
-//        }, {
-//            // Play prev
-//            playPrev()
-//        })
-//        musicController.setMediaPlayer(this);
-//        musicController.isEnabled = true;
-//    }
-
     private fun playPrev() {
         musicService?.playPrev()
     }
@@ -239,22 +172,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         binding.btnRepeat.setOnClickListener { repeatSong() }
         binding.btnNext.setOnClickListener { playNext() }
         binding.btnPre.setOnClickListener { playPrev() }
-        binding.seekBarSong.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (checkChangeSeekBar) {
-                    musicService?.seek(progress * 1000)
-                    checkChangeSeekBar = false
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                checkChangeSeekBar = true
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                checkChangeSeekBar = false
-            }
-        })
     }
 
     override fun onResume() {
@@ -299,7 +216,7 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
 
     private fun updateUI() {
         binding.song = song
-        tvTotalTime?.text = song?.time?.let { Song.timestampIntToMSS(requireContext(), it) }
+        tvTotalTime?.text = song?.time?.let { Song.timestampIntToMSS(it) }
         seekBarSong?.max = song?.time ?: 0
         btnPlay?.isSelected = isPlaying()
         btnRepeat?.isSelected = musicService?.isRepeat() ?: false
@@ -338,49 +255,4 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
     // Get status of media player in service
     fun isPlaying(): Boolean = musicService?.isPlaying() == true
 
-//
-//    override fun canSeekForward(): Boolean {
-//        return true
-//    }
-//
-//    override fun getDuration(): Int {
-//        return if (musicService != null && musicService?.isPlaying() == true)
-//            musicService?.getDuration() ?: 0
-//        else 0
-//    }
-//
-//    override fun pause() {
-//        musicService?.pausePlayer()
-//    }
-//
-//    override fun getBufferPercentage(): Int {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
-//    override fun seekTo(pos: Int) {
-//        musicService?.seek(pos)
-//    }
-//
-//    override fun getCurrentPosition(): Int {
-//        return if (musicService != null && musicService?.isPlaying() == true)
-//            musicService?.getPosition() ?: 0
-//        else 0
-//    }
-//
-//
-//    override fun canSeekBackward(): Boolean {
-//        return true
-//    }
-//
-//    override fun start() {
-//        musicService?.play()
-//    }
-//
-//    override fun getAudioSessionId(): Int {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
-//    override fun canPause(): Boolean {
-//        return true
-//    }
 }

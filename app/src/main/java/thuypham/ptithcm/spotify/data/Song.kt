@@ -34,7 +34,7 @@ data class Song(
     var isPlaying: Boolean? = false,
     var time: Int? = null,
     var currentPosition: Int? = null
-) :Parcelable, DynamicSearchAdapter.Searchable {
+) : Parcelable, DynamicSearchAdapter.Searchable {
 
     override fun getSearchCriteria(): String {
         return songName.toString()
@@ -49,11 +49,11 @@ data class Song(
             else context.getString(R.string.duration_format).format(minutes, remainingSeconds)
         }
 
-        fun timestampIntToMSS(context: Context, position: Int): String {
+        fun timestampIntToMSS(position: Int): String {
             val minutes = position / 60
             val remainingSeconds = position - (minutes * 60)
-            return if (position < 0) context.getString(R.string.duration_unknown)
-            else context.getString(R.string.duration_format).format(minutes, remainingSeconds)
+            return if (position < 0) "--:--"
+            else "%d:%02d".format(minutes, remainingSeconds)
         }
     }
 }
