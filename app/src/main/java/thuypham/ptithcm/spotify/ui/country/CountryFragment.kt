@@ -1,7 +1,12 @@
 package thuypham.ptithcm.spotify.ui.country
 
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +21,7 @@ import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentCountryBinding
 import thuypham.ptithcm.spotify.di.Injection
+import thuypham.ptithcm.spotify.service.SoundService
 import thuypham.ptithcm.spotify.ui.country.adapter.SongCountryAdapter
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
 import thuypham.ptithcm.spotify.util.*
@@ -36,29 +42,48 @@ class CountryFragment : Fragment() {
     }
     private var country: Country? = null
 
-    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
+    private fun songEvents(song: Song?, position: Int, type: EventTypeSong) {
         when (type) {
-            EventTypeSong.ITEM_CLICK -> {
-                // Delete all song before insert list song into database
-                // insert list song to play song when the current song is end
-                nowPlayingViewModel.deleteAllSong()
-                nowPlayingViewModel.insertSongs(countryViewModel.listSong.value ?: arrayListOf())
-                nowPlayingViewModel.getAllSongInDb()
-                val nowPlayingFragment = NowPlayingFragment()
-                val arguments = Bundle()
-                arguments.putParcelable(SONG, song)
-                arguments.putInt(POSITION, position)
-                nowPlayingFragment.arguments = arguments
-                activity.replaceFragment(
-                    id = R.id.frmMain,
-                    fragment = nowPlayingFragment,
-                    tag = "NowPlaying",
-                    addToBackStack = true
-                )
-            }
+            EventTypeSong.ITEM_CLICK -> showFragmentNowPlaying(song, position)
             EventTypeSong.SHOW_MORE -> {
                 // Todo() -> show dialog
             }
+        }
+    }
+
+    private fun showFragmentNowPlaying(song: Song?, position: Int) {
+        // Delete all song before insert list song into database
+        // insert list song to play song when the current song is end
+        nowPlayingViewModel.deleteAllSong()
+        nowPlayingViewModel.insertSongs(countryViewModel.listSong.value ?: arrayListOf())
+        nowPlayingViewModel.listSongPlaying.value = countryViewModel.listSong.value
+        val nowPlayingFragment = NowPlayingFragment.getInstance()
+        val arguments = Bundle()
+        arguments.putParcelable(SONG, song)
+        arguments.putInt(POSITION, position)
+        nowPlayingFragment.arguments = arguments
+        activity.replaceFragment(
+            id = R.id.frmMain,
+            fragment = nowPlayingFragment,
+            tag = "NowPlaying",
+            addToBackStack = true
+        )
+    }
+
+
+    // Check service init
+    private var checkInitService = false
+    private var musicService: SoundService? = SoundService()
+    private val musicConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as SoundService.MusicBinder
+            // get service
+            musicService = binder.getService()
+            checkInitService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            checkInitService = false
         }
     }
 
@@ -72,6 +97,11 @@ class CountryFragment : Fragment() {
                 Injection.provideNowPlayingViewModelFactory(requireActivity().application)
             )
             .get(NowPlayingViewModel::class.java)
+
+        // Start service music
+        val intent = Intent(requireContext(), SoundService.getInstance().javaClass)
+        requireActivity().bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        requireContext().startService(intent)
     }
 
     override fun onCreateView(
@@ -92,11 +122,7 @@ class CountryFragment : Fragment() {
             initAdapter()
             bindViewModel()
         } else
-            Toast.makeText(
-                requireContext(),
-                "Can't load info!",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(requireContext(), "Can't load info!", Toast.LENGTH_LONG).show()
 
     }
 
@@ -132,5 +158,14 @@ class CountryFragment : Fragment() {
             country?.id?.let { countryViewModel.getListSong(it) }
             binding.swRefreshCountry.isRefreshing = false
         }
+        binding.btnPlayAllSongCounty.setOnClickListener {
+            val position =
+                countryViewModel.listSong.value?.size?.let { it1 -> randomPositionSong(0, it1) }
+            showFragmentNowPlaying(
+                countryViewModel.listSong.value?.get(position ?: 0), position ?: 0
+            )
+            musicService?.setShuffle(true)
+        }
     }
+
 }

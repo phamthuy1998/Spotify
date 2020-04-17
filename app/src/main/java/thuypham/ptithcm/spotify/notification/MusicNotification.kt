@@ -6,8 +6,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.app.NotificationCompat.MediaStyle
@@ -15,6 +19,9 @@ import thuypham.ptithcm.spotify.R
 import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.service.BroadcastNotificationService
 import thuypham.ptithcm.spotify.util.*
+import java.io.IOException
+import java.io.InputStream
+import java.net.URL
 
 
 class MusicNotification {
@@ -34,6 +41,27 @@ class MusicNotification {
 //        }
 //    }
 
+    // Get bitmap from URL
+    class AsyncTaskGetBitmap internal constructor(var bitmap: Bitmap?) :
+        AsyncTask<String?, Void?, Bitmap?>() {
+        override fun doInBackground(vararg url: String?): Bitmap? {
+            val inputStream: InputStream
+            val src = url[0]
+            return try {
+                inputStream = URL(src).openStream()
+                BitmapFactory.decodeStream(inputStream)
+            } catch (e: IOException) {
+                Log.d("ErrBetBitmap", e.message.toString())
+                null
+            }
+        }
+
+        override fun onPostExecute(result: Bitmap?) {
+            super.onPostExecute(result)
+            bitmap = result
+        }
+    }
+
 
     fun createChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -48,13 +76,15 @@ class MusicNotification {
     }
 
     fun createNotification(context: Context, song: Song, playButton: Int, pos: Int, size: Int) {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManagerCompat =
                 NotificationManagerCompat.from(context)
             val mediaSessionCompat = MediaSessionCompat(context, "tag")
 
             // Get image url of image song
-//            val icon = getBitmapFromURL(song.imageURL)
+            val imageBitmap: Bitmap? = null
+            AsyncTaskGetBitmap(imageBitmap).execute(song.imageURL)
             val pendingIntentPrevious: PendingIntent?
             val icPrev: Int
             if (pos == 0) {
@@ -113,7 +143,7 @@ class MusicNotification {
                 .setSmallIcon(R.drawable.ic_music)
                 .setContentTitle(song.songName)
                 .setContentText(song.artistName)
-                .setLargeIcon(null)
+                .setLargeIcon(imageBitmap)
                 .setOnlyAlertOnce(true) //show notification for only first time
                 .setShowWhen(false)
                 .addAction(icPrev, "Previous", pendingIntentPrevious)

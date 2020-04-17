@@ -53,22 +53,21 @@ class MainActivity : AppCompatActivity() {
         profileViewModel.userInfo.observe(this, Observer {
             if (it != null) binding.user = it
         })
-        nowPlayingViewModel.getAllSongInDb()?.observe(this, Observer { listSong ->
+        nowPlayingViewModel.listSongPlaying.observe(this, Observer { listSong ->
             initBottomNowPlaying(listSong)
         })
 
         nowPlayingViewModel.isShowFragmentNowPlaying.observe(this, Observer { isShowNowPlaying ->
-            if (isShowNowPlaying) binding.frmNowPlaying.gone()
-            else binding.frmNowPlaying.show()
+            if (isShowNowPlaying) frmNowPlaying?.gone()
+            else frmNowPlaying?.show()
         })
     }
 
     private fun initBottomNowPlaying(listSong: List<Song>?) {
-        if (listSong?.size != 0){
-            frmNowPlaying.show()
+        if (listSong != null && listSong.isNotEmpty()) {
+            frmNowPlaying?.show()
             nowPlayingViewModel.listSongDb.value = listSong
-        }
-        else frmNowPlaying.gone()
+        } else frmNowPlaying?.gone()
     }
 
     private fun initViews() {

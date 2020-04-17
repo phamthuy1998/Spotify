@@ -19,11 +19,12 @@
         <activity
             android:name=".ui.auth.LoginActivity"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/AppTheme.SplashScreen"
-            android:windowSoftInputMode="adjustResize">
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +34,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name=".service.SoundService"

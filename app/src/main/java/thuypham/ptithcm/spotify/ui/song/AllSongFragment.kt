@@ -31,7 +31,7 @@ class AllSongFragment : Fragment() {
     private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
         when (type) {
             EventTypeSong.ITEM_CLICK -> {
-                val nowPlayingFragment = NowPlayingFragment()
+                val nowPlayingFragment = NowPlayingFragment.getInstance()
                 val arguments = Bundle()
                 arguments.putParcelable(SONG, song)
                 arguments.putInt(POSITION, position)

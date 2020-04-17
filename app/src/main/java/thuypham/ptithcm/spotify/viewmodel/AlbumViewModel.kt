@@ -70,10 +70,6 @@ class AlbumViewModel(
             else statusUnLikeAlbum = repository.removeAlbumFavorite(album.value!!)
     }
 
-    fun onPlayAllAlbumClick(view: View) {
-        view.isSelected = !view.isSelected
-    }
-
     fun onShareAlbumClick(view: View) {
 
     }

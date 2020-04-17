@@ -3,6 +3,7 @@ package thuypham.ptithcm.spotify.ui.song
 
 import android.app.NotificationManager
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
@@ -18,13 +19,22 @@ import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentNowPlayingBinding
 import thuypham.ptithcm.spotify.di.Injection
+import thuypham.ptithcm.spotify.event.SongChangedListener
 import thuypham.ptithcm.spotify.notification.MusicNotification
+import thuypham.ptithcm.spotify.service.PLAYING
+import thuypham.ptithcm.spotify.service.PLAY_NEXT
+import thuypham.ptithcm.spotify.service.PLAY_PREV
 import thuypham.ptithcm.spotify.service.SoundService
 import thuypham.ptithcm.spotify.util.*
 import thuypham.ptithcm.spotify.viewmodel.NowPlayingViewModel
 
 
-class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
+class NowPlayingFragment : Fragment(), SongChangedListener {
+
+    companion object {
+        private var instance: NowPlayingFragment? = null
+        fun getInstance() = instance ?: NowPlayingFragment()
+    }
 
     private lateinit var binding: FragmentNowPlayingBinding
     private var song: Song? = null
@@ -37,7 +47,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
     // Check service init
     private var checkInitService = false
     // Check  user is changing the status of seek bar?
-    private var checkChangeSeekBar = false
 
     //connect to the service
     private val musicConnection: ServiceConnection = object : ServiceConnection {
@@ -45,21 +54,34 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
             val binder = service as SoundService.MusicBinder
             // get service
             musicService = binder.getService()
+            // Set up service
             song?.let {
                 musicService?.setSong(it, position ?: 0)
                 nowPlayingViewModel.songPlaying.postValue(song)
             }
-            musicService?.setList(nowPlayingViewModel.listSongDb.value)
-            musicService?.playSong()
-            musicService?.setUIControls(seekBarSong, tvTimePlay, tvTotalTime)
+            musicService?.setList(nowPlayingViewModel.listSongPlaying.value)
+            musicService?.setSongChangedListener(this@NowPlayingFragment)
+            musicService?.setUISong(seekBarSong, tvTimePlay, tvTotalTime)
+            musicService?.setUpState(PLAYING)
             updateUI()
-            notificationPlay()
             checkInitService = true
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
             checkInitService = false
         }
+    }
+
+    override fun onSongChanged(song: Song) {
+        this.song = song
+        nowPlayingViewModel.songPlaying.postValue(song)
+        // check this fragment is attach on activity
+        if (isAdded) updateUI()
+    }
+
+    override fun onStatusPlayingChanged(status: Int) {
+//        nowPlayingViewModel.isPlaying.value = status == PLAYING
+//        progressSongInfo?.visibility = if (status == PREPARE_PLAYING) View.VISIBLE else View.GONE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,29 +94,23 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
             )
             .get(NowPlayingViewModel::class.java)
         nowPlayingViewModel.isShowFragmentNowPlaying.value = true
-
+        nowPlayingViewModel.isPlaying.value = true
         // Start service music
         val intent = Intent(requireContext(), SoundService.getInstance().javaClass)
         requireActivity().bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
         requireContext().startService(intent)
 
         // Start service notification
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            MusicNotification().createChannel(requireContext())
-//            requireActivity().registerReceiver(broadcastReceiver, IntentFilter(NOTIFICATION))
-//            requireActivity().startService(
-//                Intent(
-//                    requireActivity().baseContext,
-//                    SoundService::class.java
-//                )
-//            )
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            MusicNotification().createChannel(requireContext())
+            requireActivity().registerReceiver(broadcastReceiver, IntentFilter(NOTIFICATION))
+        }
     }
 
     // receive action from notification
     private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            when (intent.extras?.getString(NOTIFICATION_ACT)) {
+            when (intent.extras?.getString(NOTIFICATION)) {
                 ACT_PREV -> notificationPrev()
                 ACT_PLAY -> if (isPlaying()) {
                     notificationPause()
@@ -109,13 +125,16 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
 
     private fun notificationNext() {
 
+        Toast.makeText(requireContext(), "Play next", Toast.LENGTH_LONG).show()
     }
 
     private fun notificationExit() {
+        Toast.makeText(requireContext(), "Exit", Toast.LENGTH_LONG).show()
 
     }
 
     private fun notificationPlay() {
+        Toast.makeText(requireContext(), "Play song", Toast.LENGTH_LONG).show()
         song?.let {
             MusicNotification().createNotification(requireContext(), it, 0, R.drawable.ic_pause, 1)
         }
@@ -123,9 +142,11 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
 
     private fun notificationPrev() {
 
+        Toast.makeText(requireContext(), "Play Prev ", Toast.LENGTH_LONG).show()
     }
 
     private fun notificationPause() {
+        Toast.makeText(requireContext(), "Pause song", Toast.LENGTH_LONG).show()
         song?.let {
             MusicNotification().createNotification(requireContext(), it, 0, R.drawable.ic_play, 1)
         }
@@ -141,7 +162,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        initMusicController()
         song = arguments?.getParcelable(SONG)
         position = arguments?.getInt(POSITION)
         if (song != null) {
@@ -154,14 +174,6 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         addEvents()
     }
 
-    private fun playPrev() {
-        musicService?.playPrev()
-    }
-
-    private fun playNext() {
-        musicService?.playNext()
-    }
-
     private fun addEvents() {
         binding.btnPlay.setOnClickListener {
             eventButtonPlay()
@@ -170,8 +182,8 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         binding.btnFavorite.setOnClickListener { onLikeSong() }
         binding.btnShuffle.setOnClickListener { setShuffle() }
         binding.btnRepeat.setOnClickListener { repeatSong() }
-        binding.btnNext.setOnClickListener { playNext() }
-        binding.btnPre.setOnClickListener { playPrev() }
+        binding.btnNext.setOnClickListener { musicService?.setUpState(PLAY_NEXT) }
+        binding.btnPre.setOnClickListener { musicService?.setUpState(PLAY_PREV) }
     }
 
     override fun onResume() {
@@ -185,17 +197,18 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
     }
 
     private fun repeatSong() {
-        musicService?.setRepeat()
-        binding.btnRepeat.isSelected = musicService?.isRepeat() ?: false
+        binding.btnRepeat.isSelected = !binding.btnRepeat.isSelected
+        musicService?.setRepeat(binding.btnRepeat.isSelected)
     }
 
     private fun setShuffle() {
         binding.btnShuffle.isSelected = !binding.btnShuffle.isSelected
-        musicService?.setShuffle()
+        musicService?.setShuffle(binding.btnShuffle.isSelected)
     }
 
     private fun eventButtonPlay() {
         binding.btnPlay.isSelected = !binding.btnPlay.isSelected
+        nowPlayingViewModel.isPlaying.value = binding.btnPlay.isSelected
         if (binding.btnPlay.isSelected) { // Playing
             musicService?.play()
         } else {
@@ -218,7 +231,7 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
         binding.song = song
         tvTotalTime?.text = song?.time?.let { Song.timestampIntToMSS(it) }
         seekBarSong?.max = song?.time ?: 0
-        btnPlay?.isSelected = isPlaying()
+        btnPlay?.isSelected = nowPlayingViewModel.isPlaying.value ?: true
         btnRepeat?.isSelected = musicService?.isRepeat() ?: false
         btnShuffle?.isSelected = musicService?.isShuffle() ?: false
     }
@@ -248,6 +261,10 @@ class NowPlayingFragment : Fragment() {//, MediaController.MediaPlayerControl {
 
         nowPlayingViewModel.checkSongIsLike.observe(requireActivity(), Observer {
             binding.btnFavorite.isSelected = it ?: false
+        })
+
+        nowPlayingViewModel.isPlaying.observe(this, Observer {
+            btnPlay?.isSelected = it ?: false
         })
 
     }

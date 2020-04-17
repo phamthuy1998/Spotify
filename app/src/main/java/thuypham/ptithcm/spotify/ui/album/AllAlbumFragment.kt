@@ -15,6 +15,7 @@ import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.di.Injection
 import thuypham.ptithcm.spotify.ui.album.adapter.AlbumAdapter
 import thuypham.ptithcm.spotify.util.gone
+import thuypham.ptithcm.spotify.util.hideKeyboard
 import thuypham.ptithcm.spotify.util.replaceFragment
 import thuypham.ptithcm.spotify.util.show
 import thuypham.ptithcm.spotify.viewmodel.AlbumViewModel
@@ -24,7 +25,7 @@ class AllAlbumFragment : Fragment() {
     private lateinit var albumViewModel: AlbumViewModel
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
     private val albumAdapter by lazy {
-        AlbumAdapter(mutableListOf() ,this::itemAlbumClick)
+        AlbumAdapter(mutableListOf(), this::itemAlbumClick)
     }
 
     private fun itemAlbumClick(id: String?) {
@@ -42,7 +43,10 @@ class AllAlbumFragment : Fragment() {
             .of(this, Injection.provideAlbumViewModelFactory())
             .get(AlbumViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
+            .of(
+                requireActivity(),
+                Injection.provideNowPlayingViewModelFactory(requireActivity().application)
+            )
             .get(NowPlayingViewModel::class.java)
 
     }
@@ -68,7 +72,10 @@ class AllAlbumFragment : Fragment() {
             albumViewModel.getAllListAlbum()
             swRefreshAllAlbum.isRefreshing = false
         }
-        btnBackAllAlbum.setOnClickListener { requireActivity().onBackPressed() }
+        btnBackAllAlbum.setOnClickListener {
+            requireActivity().onBackPressed()
+            it.hideKeyboard()
+        }
         edtSearchAlbum.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 

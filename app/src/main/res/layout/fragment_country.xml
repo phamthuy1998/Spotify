@@ -13,6 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay"
         tools:context=".ui.country.CountryFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -26,28 +27,60 @@
                 app:collapsedTitleTextAppearance="@style/txtToolbar"
                 app:contentScrim="@color/colorWhite"
                 app:expandedTitleMarginStart="48dp"
+                app:expandedTitleGravity="center"
                 app:expandedTitleTextAppearance="@style/txtHeader1"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:title="@{country.countryName.toString()}"
                 app:titleEnabled="true">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/header"
-                    imageFromUrl="@{country.backgroundURL}"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    tools:src="@drawable/country" />
+                    android:layout_height="wrap_content"
+                    app:layout_collapseMode="parallax">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:background="#A7591A07"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCountryBg"
+                        imageFromUrl="@{country.backgroundURL.toString()}"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#A7591A07"
+                        android:fitsSystemWindows="true"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/country" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#A7591A07"
+                        android:fitsSystemWindows="true"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/btnPlayAllSongCounty"
+                        style="@style/textNameSong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_corner_btn"
+                        android:backgroundTint="@color/colorOrange"
+                        android:paddingStart="50dp"
+                        android:clickable="true"
+                        android:paddingTop="@dimen/default_margin"
+                        android:paddingEnd="50dp"
+                        android:paddingBottom="@dimen/default_margin"
+                        android:text="@string/shuffle"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintBottom_toBottomOf="@id/ivCountryBg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivCountryBg" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_flexible_space"

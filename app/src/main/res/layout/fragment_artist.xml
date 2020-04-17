@@ -25,7 +25,7 @@
         tools:context=".ui.artist.AlbumFragment">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarAlbum"
+            android:id="@+id/appBarArtist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -92,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:onClick="@{(v)->viewModel.onPlayAllArtistClick(v)}"
                         android:src="@drawable/btn_play_album_selector"
                         app:layout_constraintBottom_toBottomOf="@id/ivArtist"
                         app:layout_constraintEnd_toEndOf="parent"

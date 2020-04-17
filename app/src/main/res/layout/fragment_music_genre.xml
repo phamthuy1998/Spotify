@@ -57,7 +57,6 @@
                         android:background="#A7591A07"
                         android:fitsSystemWindows="true"
                         android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +70,7 @@
                         android:backgroundTint="@color/colorOrange"
                         android:paddingStart="50dp"
                         android:paddingTop="@dimen/default_margin"
+                        android:clickable="true"
                         android:paddingEnd="50dp"
                         android:paddingBottom="@dimen/default_margin"
                         android:text="@string/shuffle"

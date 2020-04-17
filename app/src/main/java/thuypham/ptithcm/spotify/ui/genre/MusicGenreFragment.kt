@@ -1,7 +1,12 @@
 package thuypham.ptithcm.spotify.ui.genre
 
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +21,7 @@ import thuypham.ptithcm.spotify.data.Song
 import thuypham.ptithcm.spotify.data.Status
 import thuypham.ptithcm.spotify.databinding.FragmentMusicGenreBinding
 import thuypham.ptithcm.spotify.di.Injection
+import thuypham.ptithcm.spotify.service.SoundService
 import thuypham.ptithcm.spotify.ui.country.adapter.SongCountryAdapter
 import thuypham.ptithcm.spotify.ui.song.NowPlayingFragment
 import thuypham.ptithcm.spotify.util.*
@@ -38,25 +44,45 @@ class MusicGenreFragment : Fragment() {
         )
     }
 
-    private fun songEvents(song: Song?,position: Int, type: EventTypeSong) {
+    private fun songEvents(song: Song?, position: Int, type: EventTypeSong) {
         when (type) {
-            EventTypeSong.ITEM_CLICK -> {
-                val nowPlayingFragment = NowPlayingFragment()
-                val arguments = Bundle()
-                arguments.putParcelable(SONG, song)
-                arguments.putInt(POSITION, position)
-                nowPlayingFragment.arguments = arguments
-                activity.replaceFragment(
-                    id = R.id.frmMain,
-                    fragment = nowPlayingFragment,
-                    tag = "NowPlaying",
-                    addToBackStack = true
-                )
-            }
-            EventTypeSong.SHOW_MORE -> {
-                // Todo() -> show dialog
-            }
+            EventTypeSong.ITEM_CLICK -> showFragmentNowPlaying(song, position)
+            EventTypeSong.SHOW_MORE -> { /* Todo() -> show dialog*/ }
         }
+    }
+
+    private fun showFragmentNowPlaying(song: Song?, position: Int) {
+        nowPlayingViewModel.deleteAllSong()
+        nowPlayingViewModel.insertSongs(musicGenreViewModel.listSong.value ?: arrayListOf())
+        nowPlayingViewModel.listSongPlaying.value = musicGenreViewModel.listSong.value
+        val nowPlayingFragment = NowPlayingFragment.getInstance()
+        val arguments = Bundle()
+        arguments.putParcelable(SONG, song)
+        arguments.putInt(POSITION, position)
+        nowPlayingFragment.arguments = arguments
+        activity.replaceFragment(
+            id = R.id.frmMain,
+            fragment = nowPlayingFragment,
+            tag = "NowPlaying",
+            addToBackStack = true
+        )
+    }
+
+    // Check service init
+    private var checkInitService = false
+    private var musicService: SoundService? = SoundService()
+    private val musicConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as SoundService.MusicBinder
+            // get service
+            musicService = binder.getService()
+            checkInitService = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            checkInitService = false
+        }
+
     }
 
     private var musicGenre: MusicGenre? = null
@@ -67,8 +93,16 @@ class MusicGenreFragment : Fragment() {
             ViewModelProviders.of(this, Injection.provideMusicGenreViewModelFactory())
                 .get(MusicGenreViewModel::class.java)
         nowPlayingViewModel = ViewModelProviders
-            .of(requireActivity(), Injection.provideNowPlayingViewModelFactory(requireActivity().application))
+            .of(
+                requireActivity(),
+                Injection.provideNowPlayingViewModelFactory(requireActivity().application)
+            )
             .get(NowPlayingViewModel::class.java)
+
+        // Start service music
+        val intent = Intent(requireContext(), SoundService.getInstance().javaClass)
+        requireActivity().bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        requireContext().startService(intent)
     }
 
     override fun onCreateView(
@@ -89,11 +123,7 @@ class MusicGenreFragment : Fragment() {
             initAdapter()
             bindViewModel()
         } else
-            Toast.makeText(
-                requireContext(),
-                "Can't load info!",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(requireContext(), "Can't load info!", Toast.LENGTH_LONG).show()
     }
 
     private fun initAdapter() {
@@ -128,6 +158,18 @@ class MusicGenreFragment : Fragment() {
         binding.swRefreshMusicGenre.setOnRefreshListener {
             musicGenre?.id?.let { musicGenreViewModel.getListSong(it) }
             binding.swRefreshMusicGenre.isRefreshing = false
+        }
+        binding.btnPlayAllSong.setOnClickListener {
+            val position =
+                musicGenreViewModel.listSong.value?.size?.let { it1 -> randomPositionSong(0, it1) }
+            showFragmentNowPlaying(
+                musicGenreViewModel.listSong.value?.get(position ?: 0), position ?: 0
+            )
+            showFragmentNowPlaying(
+                musicGenreViewModel.listSong.value?.get(position ?: 0),
+                position ?: 0
+            )
+            musicService?.setShuffle(true)
         }
     }
 

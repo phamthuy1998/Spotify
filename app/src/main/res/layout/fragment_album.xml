@@ -90,7 +90,6 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
-                        android:onClick="@{(v)->viewModel.onPlayAllAlbumClick(v)}"
                         android:src="@drawable/btn_play_album_selector"
                         app:layout_constraintBottom_toBottomOf="@id/ivAlbum"
                         app:layout_constraintEnd_toEndOf="parent"

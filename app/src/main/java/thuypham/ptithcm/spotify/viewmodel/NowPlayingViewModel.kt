@@ -16,11 +16,15 @@ class NowPlayingViewModel(
     var requestLikeSong = MutableLiveData<NetworkState>()
     var requestUnLikeSong = MutableLiveData<NetworkState>()
     var listSongDb = MutableLiveData<List<Song>>().apply { value = arrayListOf() }
+    var listSongPlaying = MutableLiveData<List<Song>>().apply { value = arrayListOf() }
     var checkSongIsLike = MutableLiveData<Boolean>()
     var songPlaying = MutableLiveData<Song>().apply { value = null }
     var isShowFragmentNowPlaying = MutableLiveData<Boolean>().apply { value = false }
     var isPlaying = MutableLiveData<Boolean>().apply { value = false }
     var isShuffle = MutableLiveData<Boolean>().apply { value = false }
+    var isPlayShuffleArtist = MutableLiveData<Boolean>().apply { value = false }
+    var isPlayShuffleAlbum = MutableLiveData<Boolean>().apply { value = false }
+    var isPlayShufflePlaylist= MutableLiveData<Boolean>().apply { value = false }
 
     //    fun getAllSongInDb() = repositoryDb.getAllSong()
     fun getAllSongInDb() = repositoryDb.getAllSong()
